@@ -24,7 +24,7 @@
                                 <tbody>
                                     @foreach ($products as $item)
                                         <tr>
-                                            <td class="text-center">{{ $loopiteration }}</td>
+                                            <td class="text-center">{{ $loop->iteration }}</td>
                                             <td>{{ $item->prod_name }}</td>
                                             <td>{{ $item->prod_length }}</td>
                                             <td>{{ $item->prod_price_per_unit }}</td>

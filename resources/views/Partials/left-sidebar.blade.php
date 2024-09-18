@@ -4,8 +4,8 @@
 @endphp
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <a href="index3.html" class="brand-link">
-        <img src="{{ asset('admin-lte/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
+    <a href="{{ route('home') }}" class="brand-link">
+        <img src="{{ asset('admin-lte/dist/img/AdminLTELogo.png') }}" alt="ระบบคลังสินค้า"
             class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">ระบบคลังสินค้า</span>
     </a>
@@ -17,7 +17,11 @@
                     alt="User Image">
             </div>
             <div class="info">
-                <a href="{{ route('dashboard.index') }}" class="d-block">{{ auth()->user()->username }} </a>
+                @if (auth()->check())
+                    <a href="{{ route('dashboard.index') }}" class="d-block">{{ auth()->user()->username }}</a>
+                @else
+                    <a href="{{ route('login') }}" class="d-block">Guest</a>
+                @endif
             </div>
         </div>
 

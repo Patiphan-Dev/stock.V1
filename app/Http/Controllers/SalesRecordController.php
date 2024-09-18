@@ -18,6 +18,7 @@ class SalesRecordController extends Controller
         $SOs = SalesOrder::all();
         $SLs = SalesList::all();
 
+        dd($SOs,$SLs);
 
         // พิมพ์ค่าของตัวแปรเพื่อดีบัก
         // dd(array_merge($data, compact('users')));

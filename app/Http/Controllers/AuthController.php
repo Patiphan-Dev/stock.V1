@@ -10,7 +10,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
-  
+
 
 class AuthController extends Controller
 {
@@ -22,10 +22,18 @@ class AuthController extends Controller
             'username' => ['required', 'string', 'max:50'],
             'password' => ['required', 'min:6']
         ]);
-    
-        // Attempt to login the user with the provided credentials
+
+        // Check if the user exists
+        $user = User::where('username', $fields['username'])->first();
+
+        if (!$user) {
+            // User not found
+            return redirect()->back()->with('error', 'ชื่อผู้ใช้ไม่ถูกต้อง');
+        }
+
+        // Attempt to log in the user with the provided credentials and "Remember Me" functionality
         if (Auth::attempt(['username' => $fields['username'], 'password' => $fields['password']], $request->filled('remember'))) {
-            return redirect()->intended('dashboard');
+            return redirect()->intended('/dashboard'); // Change to your desired route
         } else {
             return redirect()->back()->with('error', 'รหัสผ่านผิด');
         }
