@@ -11,8 +11,7 @@ use App\Http\Controllers\SalesRecordController;
 use App\Http\Controllers\PurchaseRecordController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AuthController;
-
-
+use App\Http\Controllers\UserController;
 
 // Login Routes
 Route::view('/login', 'auth.login')->name('login');
@@ -25,9 +24,7 @@ Route::middleware('auth')->group(function () {
   Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-  Route::get('/', function () {
-    return view('dashboard.index', ['title' => 'Dashboard']);
-  })->name('home');
+  Route::get('/', [DashboardController::class, 'index'])->name('home');
 
   Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
   Route::get('/product', [ProductController::class, 'index'])->name('product.index');
@@ -48,4 +45,12 @@ Route::middleware('auth')->group(function () {
   Route::get('/report/buys/6-months', [ReportController::class, 'buysReportSixMonths'])->name('buysReportSixMonths');
   Route::get('/report/sales/3-months', [ReportController::class, 'salesReportThreeMonths'])->name('salesReportThreeMonths');
   Route::get('/report/sales/6-months', [ReportController::class, 'salesReportSixMonths'])->name('salesReportSixMonths');
+
+  Route::get('/users', [UserController::class, 'index'])->name('users.index');
+  Route::get('/adduser', [UserController::class, 'adduser'])->name('users.adduser');
+  Route::post('/createuser', [UserController::class, 'createuser'])->name('users.createuser');
+  Route::get('/edituser/{id}', [UserController::class, 'edituser'])->name('users.edituser');
+  Route::post('/updateuser/{id}', [UserController::class, 'updateuser'])->name('users.updateuser');
+  Route::get('/deleteuser/{id}', [UserController::class, 'deleteuser'])->name('users.deleteuser');
+
 });

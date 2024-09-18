@@ -3,12 +3,13 @@
         <div class="container-fluid">
 
             <div class="row">
+
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-info">
                         <div class="inner">
                             @if ($bestSellingToday == null)
-                                <h3> 0 </h3>
-                                ว่าง
+                                <h3> 0 <sup style="font-size: 20px">ชิ้น</sup></h3>
+                                <p>ว่าง</p>
                             @else
                                 <h3> {{ $bestSellingToday->total_quantity }}<sup style="font-size: 20px">ชิ้น</sup> </h3>
                                 <p>{{ $bestSellingToday->so_prod_name }}</p>
@@ -17,16 +18,17 @@
                         <div class="icon">
                             <i class="ion ion-bag"></i>
                         </div>
-                        <a href="#" class="small-box-footer">สินค้าขายดีวันนี้ <i
-                                class="fas fa-arrow-circle-right"></i></a>
+                        <a href="#" class="small-box-footer">
+                            สินค้าขายดีวันนี้ <i class="fas fa-arrow-circle-right"></i>
+                        </a>
                     </div>
                 </div>
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-success">
                         <div class="inner">
                             @if ($bestSellingThreeMonths == null)
-                                <h3> 0 </h3>
-                                ว่าง
+                                <h3> 0 <sup style="font-size: 20px">ชิ้น</sup></h3>
+                                <p>ว่าง</p>
                             @else
                                 <h3> {{ $bestSellingThreeMonths->total_quantity }}<sup
                                         style="font-size: 20px">ชิ้น</sup> </h3>
@@ -34,18 +36,19 @@
                             @endif
                         </div>
                         <div class="icon">
-                            <i class="ion ion-stats-bars"></i>
+                            <i class="fas fa-shopping-cart"></i>
                         </div>
-                        <a href="#" class="small-box-footer">สินค้าขายดี 3 เดือน <i
-                                class="fas fa-arrow-circle-right"></i></a>
+                        <a href="#" class="small-box-footer">
+                            สินค้าขายดี 3 เดือน <i class="fas fa-arrow-circle-right"></i>
+                        </a>
                     </div>
                 </div>
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-warning">
                         <div class="inner">
                             @if ($bestSellingSixMonths == null)
-                                <h3> 0 </h3>
-                                ว่าง
+                                <h3> 0 <sup style="font-size: 20px">ชิ้น</sup></h3>
+                                <p>ว่าง</p>
                             @else
                                 <h3> {{ $bestSellingSixMonths->total_quantity }}<sup style="font-size: 20px">ชิ้น</sup>
                                 </h3>
@@ -53,50 +56,236 @@
                             @endif
                         </div>
                         <div class="icon">
-                            <i class="ion ion-person-add"></i>
+                            <i class="fas fa-shopping-cart"></i>
                         </div>
-                        <a href="#" class="small-box-footer">สินค้าขายดี 6 เดือน <i
-                                class="fas fa-arrow-circle-right"></i></a>
+                        <a href="#" class="small-box-footer">
+                            สินค้าขายดี 6 เดือน <i class="fas fa-arrow-circle-right"></i>
+                        </a>
                     </div>
                 </div>
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-danger">
                         <div class="inner">
                             <h3>{{ $productcount }} <sup style="font-size: 20px">รายการ</sup></h3>
-
                             <p>สินค้าทั้งหมด</p>
                         </div>
                         <div class="icon">
-                            <i class="ion ion-pie-graph"></i>
+                            <i class="fas fa-chart-pie"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i
-                                class="fas fa-arrow-circle-right"></i></a>
+                        <a href="#" class="small-box-footer">
+                            สินค้าทั้งหมด <i class="fas fa-arrow-circle-right"></i>
+                        </a>
                     </div>
                 </div>
             </div>
-            {{-- <div class="row">
-                <h2>สินค้าขายดีวันนี้</h2>
-                <ul>
-                    @foreach ($bestSellingToday as $so_prod_name)
-                        <li>{{ $so_prod_name->so_prod_name }} - จำนวนขาย: {{ $so_prod_name->total_quantity }}</li>
-                    @endforeach
-                </ul>
+            <div class="row">
 
-                <h2>สินค้าขายดี 3 เดือนย้อนหลัง</h2>
-                <ul>
-                    @foreach ($bestSellingThreeMonths as $so_prod_name)
-                        <li>{{ $so_prod_name->so_prod_name }} - จำนวนขาย: {{ $so_prod_name->total_quantity }}</li>
-                    @endforeach
-                </ul>
+                {{-- <div class="col-md-6">
+                    <div class="card card-danger">
+                        <div class="card-header">
+                            <h3 class="card-title">Donut Chart</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="donutChart"
+                                style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                        </div>
+                    </div>
+                </div> --}}
+                <div class="col-md-6">
+                    <div class="card card-danger">
+                        <div class="card-header">
+                            <h3 class="card-title">Pie Chart</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="pieChart"
+                                style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                        </div>
+                    </div>
 
-                <h2>สินค้าขายดี 6 เดือนย้อนหลัง</h2>
-                <ul>
-                    @foreach ($bestSellingSixMonths as $so_prod_name)
-                        <li>{{ $so_prod_name->so_prod_name }} - จำนวนขาย: {{ $so_prod_name->total_quantity }}</li>
-                    @endforeach
-                </ul>
-
-            </div> --}}
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">Line Chart</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart">
+                                <canvas id="lineChart"
+                                    style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
+    <style>
+        .bf{
+background-color: rgba(188, 60, 60, 0.9);
+background-color: #d1c1c1
+        }
+    </style>
+    <!-- Page specific script -->
+    <script>
+        $(function() {
+            /* ChartJS
+             * -------
+             * Here we will create a few charts using ChartJS
+             */
+
+            var areaChartData = {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                datasets: [{
+                        label: 'Digital Goods',
+                        backgroundColor: 'rgba(60,141,188,0.9)',
+                        borderColor: 'rgba(60,141,188,0.8)',
+                        pointRadius: false,
+                        pointColor: '#3b8bba',
+                        pointStrokeColor: 'rgba(60,141,188,1)',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(60,141,188,1)',
+                        data: [28, 48, 40, 19, 86, 27, 90]
+                    },
+                    {
+                        label: 'Electronics',
+                        backgroundColor: 'rgba(210, 214, 222, 1)',
+                        borderColor: 'rgba(210, 214, 222, 1)',
+                        pointRadius: false,
+                        pointColor: 'rgba(210, 214, 222, 1)',
+                        pointStrokeColor: '#c1c7d1',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(220,220,220,1)',
+                        data: [65, 59, 80, 81, 56, 55, 40]
+                    },
+                    {
+                        label: 'Electronics 222',
+                        backgroundColor: 'rgba(188, 60, 60, 0.9)',
+                        borderColor: 'rgba(188, 60, 60, 0.9)',
+                        pointRadius: false,
+                        pointColor: 'rgba(188, 60, 60, 0.9)',
+                        pointStrokeColor: 'rgba(188, 60, 60, 0.9)',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(188, 60, 60, 0.9)',
+                        data: [35, 45, 65, 25, 44, 35, 55]
+                    },
+                ]
+            }
+
+            var areaChartOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+                legend: {
+                    display: false
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display: false,
+                        }
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            display: false,
+                        }
+                    }]
+                }
+            }
+
+            //-------------
+            //- LINE CHART -
+            //--------------
+            var lineChartCanvas = $('#lineChart').get(0).getContext('2d')
+            var lineChartOptions = $.extend(true, {}, areaChartOptions)
+            var lineChartData = $.extend(true, {}, areaChartData)
+            lineChartData.datasets[0].fill = false;
+            lineChartData.datasets[1].fill = false;
+            lineChartData.datasets[2].fill = false;
+            lineChartOptions.datasetFill = false
+
+            var lineChart = new Chart(lineChartCanvas, {
+                type: 'line',
+                data: lineChartData,
+                options: lineChartOptions
+            })
+
+  
+            //-------------
+            //- PIE CHART -
+            //-------------
+            // Get context with jQuery - using jQuery's .get() method.
+            var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+            var pieData = {
+                labels: [
+                    'Chrome',
+                    'IE',
+                    'FireFox',
+                    'Safari',
+                    'Opera',
+                    'Navigator',
+                ],
+                datasets: [{
+                    data: [700, 500, 400, 600, 300, 100],
+                    backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+                }]
+            }
+            var pieOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+            }
+            //Create pie or douhnut chart
+            // You can switch between pie and douhnut using the method below.
+            new Chart(pieChartCanvas, {
+                type: 'pie',
+                data: pieData,
+                options: pieOptions
+            })
+
+            //-------------
+            //- BAR CHART -
+            //-------------
+            var barChartCanvas = $('#barChart').get(0).getContext('2d')
+            var barChartData = $.extend(true, {}, areaChartData)
+            var temp0 = areaChartData.datasets[0]
+            var temp1 = areaChartData.datasets[1]
+            barChartData.datasets[0] = temp1
+            barChartData.datasets[1] = temp0
+
+            var barChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                datasetFill: false
+            }
+
+            new Chart(barChartCanvas, {
+                type: 'bar',
+                data: barChartData,
+                options: barChartOptions
+            })
+
+            //---------------------
+            //- STACKED BAR CHART -
+            //---------------------
+            var stackedBarChartCanvas = $('#stackedBarChart').get(0).getContext('2d')
+            var stackedBarChartData = $.extend(true, {}, barChartData)
+
+            var stackedBarChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    xAxes: [{
+                        stacked: true,
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
+            }
+
+            new Chart(stackedBarChartCanvas, {
+                type: 'bar',
+                data: stackedBarChartData,
+                options: stackedBarChartOptions
+            })
+        })
+    </script>
 </x-layout>

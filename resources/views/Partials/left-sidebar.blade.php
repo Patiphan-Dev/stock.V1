@@ -48,6 +48,15 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('users.index') }}"
+                        class="nav-link {{ $current_route == 'users.index' || $current_route == '' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            จักการสมาชิก
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item @if ($current_route == 'po.index' || $current_route == 'purchaserecord.index') menu-is-opening menu-open @endif">
                     <a href="#"
                         class="nav-link {{ $current_route == 'po.index' || $current_route == 'purchaserecord.index' ? 'active' : '' }}">

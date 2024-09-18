@@ -82,7 +82,7 @@
     <script>
         $.widget.bridge('uibutton', $.ui.button)
     </script>
-    
+
     <script src="{{ asset('admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('admin-lte/plugins/chart.js/Chart.min.js') }}"></script>
     <script src="{{ asset('admin-lte/plugins/sparklines/sparkline.js') }}"></script>
@@ -107,6 +107,7 @@
     <script src="{{ asset('admin-lte/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('admin-lte/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('admin-lte/plugins/select2/js/select2.full.min.js') }}"></script>
+
     <script>
         $(function() {
             $("#tb_purchase").DataTable({
@@ -133,18 +134,19 @@
             $('.select2').select2();
         });
     </script>
-      <script>
-        $(function () {
-          // Summernote
-          $('#summernote').summernote()
-    
-          // CodeMirror
-          CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
-            mode: "htmlmixed",
-            theme: "monokai"
-          });
+    <script>
+        $(function() {
+            // Summernote
+            $('#summernote').summernote()
+
+            // CodeMirror
+            CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
+                mode: "htmlmixed",
+                theme: "monokai"
+            });
         })
-      </script>
+    </script>
+
 </body>
 
 </html>
