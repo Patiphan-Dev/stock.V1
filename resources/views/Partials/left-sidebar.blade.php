@@ -57,9 +57,9 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item @if ($current_route == 'po.index' || $current_route == 'purchaserecord.index') menu-is-opening menu-open @endif">
+                <li class="nav-item @if ($current_route == 'po.index' || $current_route == 'po.purchaserecord') menu-is-opening menu-open @endif">
                     <a href="#"
-                        class="nav-link {{ $current_route == 'po.index' || $current_route == 'purchaserecord.index' ? 'active' : '' }}">
+                        class="nav-link {{ $current_route == 'po.index' || $current_route == 'po.purchaserecord' ? 'active' : '' }}">
                         <i class="nav-icon fa-solid fa-right-to-bracket"></i>
                         <p>
                             ใบสั่งซื้อ (PO)
@@ -68,8 +68,8 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('purchaserecord.index') }}"
-                                class="nav-link {{ $current_route == 'purchaserecord.index' ? 'active' : '' }}">
+                            <a href="{{ route('po.purchaserecord') }}"
+                                class="nav-link {{ $current_route == 'po.purchaserecord' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon ml-3"></i>
                                 <p>บันทึกการซื้อ</p>
                             </a>

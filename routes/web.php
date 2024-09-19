@@ -32,8 +32,11 @@ Route::middleware('auth')->group(function () {
   Route::get('/purchase-order', [PurchaseOrderController::class, 'index'])->name('po.index');
   Route::get('/addpo', [PurchaseOrderController::class, 'add'])->name('po.add');
   Route::post('/createpo', [PurchaseOrderController::class, 'create'])->name('po.create');
+  Route::get('/editpo/{id}', [PurchaseOrderController::class, 'edit'])->name('po.edit');
+  Route::put('/updatepo/{id}', [PurchaseOrderController::class, 'update'])->name('po.update');
+  Route::get('/deletepo/{id}', [PurchaseOrderController::class, 'delete'])->name('po.delete');
   // Route::get('/purchase-list', [PurchaseListController::class, 'index'])->name('pl.index');
-  Route::get('/purchase-record', [PurchaseRecordController::class, 'index'])->name('purchaserecord.index');
+  Route::get('/purchase-record', [PurchaseRecordController::class, 'index'])->name('po.purchaserecord');
 
   Route::get('/sales-order', [SalesOrderController::class, 'index'])->name('so.index');
   Route::get('/addso', [SalesOrderController::class, 'add'])->name('so.add');
@@ -50,7 +53,7 @@ Route::middleware('auth')->group(function () {
   Route::get('/adduser', [UserController::class, 'adduser'])->name('users.adduser');
   Route::post('/createuser', [UserController::class, 'createuser'])->name('users.createuser');
   Route::get('/edituser/{id}', [UserController::class, 'edituser'])->name('users.edituser');
-  Route::post('/updateuser/{id}', [UserController::class, 'updateuser'])->name('users.updateuser');
+  Route::put('/updateuser/{id}', [UserController::class, 'updateuser'])->name('users.updateuser');
   Route::get('/deleteuser/{id}', [UserController::class, 'deleteuser'])->name('users.deleteuser');
 
 });

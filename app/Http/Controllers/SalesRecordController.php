@@ -15,14 +15,15 @@ class SalesRecordController extends Controller
         $data = [
             'title' => 'Sales Record'
         ];
-        $SOs = SalesOrder::all();
-        $SLs = SalesList::all();
+        $SOs = SalesOrder::join('sales_lists', 'sales_orders.so_id', 'sales_lists.so_id')
+            ->select(
+                'sales_orders.*',
+                'sales_lists.so_prod_name',
+                'sales_lists.so_prod_quantity',
+                'sales_lists.so_prod_price_per_unit',
+                'sales_lists.so_prod_price'
+            )->get();
 
-        dd($SOs,$SLs);
-
-        // พิมพ์ค่าของตัวแปรเพื่อดีบัก
-        // dd(array_merge($data, compact('users')));
-
-        return view('salesorder.salesrecord', array_merge($data, compact('SOs','SLs')));
+        return view('salesorder.salesrecord', array_merge($data, compact('SOs')));
     }
 }

@@ -32,7 +32,7 @@ class AuthController extends Controller
         }
 
         // Attempt to log in the user with the provided credentials and "Remember Me" functionality
-        if (Auth::attempt(['username' => $fields['username'], 'password' => $fields['password']], $request->filled('remember'))) {
+        if (Auth::attempt(['username' => $fields['username'], 'password' => $fields['password']])) {
             return redirect()->intended('/dashboard'); // Change to your desired route
         } else {
             return redirect()->back()->with('error', 'รหัสผ่านผิด');

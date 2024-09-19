@@ -5,7 +5,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h1 class="card-title">ใบเสร็จรับเงิน/ใบกำกับภาษี/ใบส่งสินค้า</h1>
+                            <h1 class="card-title">เพิ่มสมาชิก</h1>
                         </div>
                         {{-- Session Messages --}}
                         @if (session('success'))
@@ -40,7 +40,7 @@
                                     <div class="col-12 col-md-3">
                                         <div class="form-group">
                                             <label for="password">รหัสผ่าน</label>
-                                            <input type="password" name="password" value="{{ old('password') }}"
+                                            <input type="password" name="password"
                                                 class="form-control @error('password') is-invalid @enderror">
                                             @error('password')
                                                 <p class="error">{{ $message }}</p>
@@ -49,14 +49,15 @@
                                     </div>
                                     <div class="col-12 col-md-3">
                                         <div class="form-group">
-                                            <label for="ststus">สถานะ</label>
+                                            <label for="status">สถานะ</label>
                                             <select class="form-control select" data-placeholder="เลือกสถานะ"
-                                                style="width: 100%;" name="ststus" required>
-                                                <option value="admin">แอดมิน</option>
-                                                <option value="owner">เจ้าของร้าน</option>
-                                                <option value="employee">พนักงาน</option>
+                                                style="width: 100%;" name="status" required>
+                                                <option value="">---กรุณาเลือกสถานะ---</option>
+                                                <option value="admin" {{ old('status') == 'admin' ? 'selected' : '' }}>แอดมิน</option>
+                                                <option value="owner" {{ old('status') == 'owner' ? 'selected' : '' }}>เจ้าของร้าน</option>
+                                                <option value="employee" {{ old('status') == 'employee' ? 'selected' : '' }}>พนักงาน</option>
                                             </select>
-                                            @error('ststus')
+                                            @error('status')
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
                                         </div>
@@ -65,7 +66,7 @@
                                 <hr>
                                 <div class="row text-center">
                                     <div class="col">
-                                        <a href="" class="btn btn-danger">
+                                        <a href="{{ route('users.index') }}" class="btn btn-danger">
                                             <i class="fa-solid fa-xmark"></i> ยกเลิก
                                         </a>
                                         <button type="submit" class="btn btn-success" id="submit">

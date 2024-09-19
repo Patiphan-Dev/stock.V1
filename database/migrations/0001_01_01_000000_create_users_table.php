@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('username', 20)->nullable()->comment('ชื่อ');
-            $table->string('fullname', 50)->nullable()->comment('ชื่อเต็ม');
+            $table->string('username', 50)->nullable()->comment('ชื่อ');
+            $table->string('fullname', 200)->nullable()->comment('ชื่อเต็ม');
             $table->string('password')->nullable()->comment('รหัสผ่าน');
-            $table->string('status')->default('owner')->comment('สถานะ');
+            $table->string('status', 20)->nullable()->comment('สถานะ');
             $table->rememberToken();
             $table->timestamps();
         });

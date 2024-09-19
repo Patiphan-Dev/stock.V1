@@ -20,10 +20,11 @@
                                         <th>ราคาหน่วยละ</th>
                                         <th>จำนวนเงิน</th>
                                         <th>วันที่</th>
+                                        <th class="text-center"><i class="fa-solid fa-gears"></i></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($SLs as $item)
+                                    @foreach ($SOs as $item)
                                         <tr>
                                             <td class="text-center">{{ $loop->iteration }}</td>
                                             <td>{{ $item->so_prod_name }}</td>
@@ -33,6 +34,16 @@
                                             <td>{{ $item->so_prod_price_per_unit }}</td>
                                             <td>{{ $item->so_prod_price }}</td>
                                             <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
+                                            <td class="text-center">
+                                                <a href="{{ route('users.edituser', ['id' => $item->id]) }}"
+                                                    class="badge badge-warning">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a href="{{ route('users.deleteuser', ['id' => $item->id]) }}"
+                                                    class="badge badge-danger">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -46,6 +57,7 @@
                                         <th>ราคาหน่วยละ</th>
                                         <th>จำนวนเงิน</th>
                                         <th>วันที่</th>
+                                        <th class="text-center"><i class="fa-solid fa-gears"></i></th>
                                     </tr>
                                 </tfoot>
                             </table>
