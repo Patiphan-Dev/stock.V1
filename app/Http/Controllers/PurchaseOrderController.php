@@ -209,49 +209,19 @@ class PurchaseOrderController extends Controller
 
                 // Check if the product exists in ProductList
                 $product = ProductList::where('prod_name', $prodName)->first();
+                $newQty = $request->old_quantity[$i] - $request->po_prod_quantity[$i];
+                $newQtyAll = $product->prod_buy_qty - $newQty;
+                $newQtyStock = $product->prod_min_qty - $newQty;
 
-                if (!$product) {
-                    // Create a new product if it doesn't exist
-                    ProductList::create([
-                        'po_id' => $PO->po_id,
-                        'prod_name' => $prodName,
-                        'prod_price_per_unit' => $request->po_prod_price_per_unit[$i],
-                        'prod_price' => $request->po_prod_price[$i],
-                        'prod_buy_qty' => $request->po_prod_quantity[$i],
-                        'prod_sales_qty' => 0,
-                        'prod_min_qty' => $request->po_prod_quantity[$i],
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
-                } else {
+                // dd($newQty, $request->po_prod_quantity[$i], $request->old_quantity[$i], $product->prod_buy_qty, $product->prod_sales_qty, $product->prod_min_qty,$newQtyAll,$newQtyStock);
 
-                    $qty = $request->po_prod_quantity[$i] - $product->prod_min_qty;
-
-
-                    if ($qty <= 0) {
-                        $newQty = $product->prod_buy_qty + $request->po_prod_quantity[$i];
-                        $minQty = $newQty - $product->prod_sales_qty;
-
-                        $product->update([
-                            'prod_price_per_unit' => $request->po_prod_price_per_unit[$i],
-                            'prod_price' => $request->po_prod_price[$i],
-                            'prod_buy_qty' => $newQty,
-                            'prod_min_qty' => $request->po_prod_quantity[$i],
-                            'updated_at' => now(),
-                        ]);
-                    } else {
-                        $newQty = $product->prod_buy_qty + $request->po_prod_quantity[$i];
-                        $minQty = $newQty - $product->prod_sales_qty;
-
-                        $product->update([
-                            'prod_price_per_unit' => $request->po_prod_price_per_unit[$i],
-                            'prod_price' => $request->po_prod_price[$i],
-                            'prod_buy_qty' => $newQty,
-                            'prod_min_qty' => $minQty,
-                            'updated_at' => now(),
-                        ]);
-                    }
-                }
+                $product->update([
+                    'prod_price_per_unit' => $request->po_prod_price_per_unit[$i],
+                    'prod_price' => $request->po_prod_price[$i],
+                    'prod_buy_qty' => $newQtyAll,
+                    'prod_min_qty' => $newQtyStock,
+                    'updated_at' => now(),
+                ]);
             }
         });
 
@@ -259,22 +229,39 @@ class PurchaseOrderController extends Controller
         return redirect()->route('po.purchaserecord')->with('success', 'อัปเดตข้อมูลสินค้าสำเร็จ');
     }
 
-    public function deleteuser($id)
+    public function delete($id)
     {
-        // Attempt to find the user
-        $PurchaseOrder = PurchaseOrder::find($id);
-        $PurchaseList = PurchaseList::find($id);
-        $ProductList = ProductList::find($id);
+        $PO = PurchaseOrder::findOrFail($id);
 
+        dd($id, $PO);
 
-        if ($PurchaseOrder) {
-            // Soft delete the user
-            $PurchaseOrder->delete();
+        // PurchaseList::where('po_id', $PO->po_id)->delete();
 
-            return redirect()->back()->with('success', 'ลบข้อมูลสำเร็จ');
-        }
+        // foreach ($request->po_prod_name as $i => $prodName) {
+        //     PurchaseList::create([
+        //         'po_id' => $PO->po_id,
+        //         'po_prod_name' => $prodName,
+        //         'po_prod_quantity' => $request->po_prod_quantity[$i],
+        //         'po_prod_price_per_unit' => $request->po_prod_price_per_unit[$i],
+        //         'po_prod_price' => $request->po_prod_price[$i],
+        //         'created_at' => now(),
+        //         'updated_at' => now(),
+        //     ]);
 
-        // If user not found, return an error message
+        //     $product = ProductList::where('prod_name', $prodName)->first();
+        //     $newQty = $request->old_quantity[$i] - $request->po_prod_quantity[$i];
+        //     $newQtyAll = $product->prod_buy_qty - $newQty;
+        //     $newQtyStock = $product->prod_min_qty - $newQty;
+
+        //     $product->update([
+        //         'prod_price_per_unit' => $request->po_prod_price_per_unit[$i],
+        //         'prod_price' => $request->po_prod_price[$i],
+        //         'prod_buy_qty' => $newQtyAll,
+        //         'prod_min_qty' => $newQtyStock,
+        //         'updated_at' => now(),
+        //     ]);
+        // }
+
         return redirect()->back()->with('error', 'ไม่พบผู้ใช้ที่ต้องการลบ');
     }
 }

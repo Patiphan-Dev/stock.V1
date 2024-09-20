@@ -242,6 +242,7 @@
                                             </div>
                                             <div class="col-md-2 col-sm-6">
                                                 <input type="text" class="form-control" name="po_prod_quantity[]" id="quantity{{ $index }}" oninput="calculateTotal({{ $index }})" value="{{ old('po_prod_quantity.' . $index, $item->po_prod_quantity) }}">
+                                                <input type="text" class="form-control" name="old_quantity[]" value="{{ $item->po_prod_quantity }}" hidden>
                                                 @error('po_prod_quantity.' . $index)
                                                     <p class="error">{{ $message }}</p>
                                                 @enderror

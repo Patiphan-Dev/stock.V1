@@ -22,7 +22,8 @@ class PurchaseRecordController extends Controller
                 'purchase_lists.po_prod_price_per_unit',
                 'purchase_lists.po_prod_price'
             )->get();
-
-        return view('purchaseorder.purchaserecord', array_merge($data, compact('POs')));
+        $PLs = PurchaseList::all();
+        
+        return view('purchaseorder.purchaserecord', array_merge($data, compact('POs', 'PLs')));
     }
 }
