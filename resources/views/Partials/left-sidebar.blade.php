@@ -83,9 +83,9 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item @if ($current_route == 'so.index' || $current_route == 'salesrecord.index') menu-is-opening menu-open @endif">
+                <li class="nav-item @if ($current_route == 'so.index' || $current_route == 'so.salesrecord') menu-is-opening menu-open @endif">
                     <a href="#"
-                        class="nav-link {{ $current_route == 'so.index' || $current_route == 'salesrecord.index' ? 'active' : '' }}">
+                        class="nav-link {{ $current_route == 'so.index' || $current_route == 'so.salesrecord' ? 'active' : '' }}">
                         <i class="nav-icon fa-solid fa-right-from-bracket"></i>
                         <p>
                             ใบสั่งขาย (SO)
@@ -94,8 +94,8 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('salesrecord.index') }}"
-                                class="nav-link {{ $current_route == 'salesrecord.index' ? 'active' : '' }}">
+                            <a href="{{ route('so.salesrecord') }}"
+                                class="nav-link {{ $current_route == 'so.salesrecord' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon ml-3"></i>
                                 <p>บันทึกการขาย</p>
                             </a>

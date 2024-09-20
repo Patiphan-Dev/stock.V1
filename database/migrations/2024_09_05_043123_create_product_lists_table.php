@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('prod_name', 100)->nullable()->comment('ชื่อสินค้า');
             $table->double('prod_length')->nullable()->comment('ความยาว');
             $table->double('prod_price_per_unit')->nullable()->comment('ราคาต่อหน่วย');
-            $table->double('prod_price')->nullable()->comment('จำนวนเงิน');
             $table->integer('prod_buy_qty')->nullable()->comment('จำนวนสินค้าซื้อมา');
             $table->integer('prod_sales_qty')->nullable()->comment('จำนวนสินค้าที่ขายไป');
             $table->integer('prod_min_qty')->nullable()->comment('จำนวนสินค้าคงเหลือ');

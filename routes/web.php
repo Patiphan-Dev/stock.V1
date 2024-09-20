@@ -30,19 +30,20 @@ Route::middleware('auth')->group(function () {
   Route::get('/product', [ProductController::class, 'index'])->name('product.index');
 
   Route::get('/purchase-order', [PurchaseOrderController::class, 'index'])->name('po.index');
-  Route::get('/addpo', [PurchaseOrderController::class, 'add'])->name('po.add');
-  Route::post('/createpo', [PurchaseOrderController::class, 'create'])->name('po.create');
-  Route::get('/editpo/{id}', [PurchaseOrderController::class, 'edit'])->name('po.edit');
-  Route::put('/updatepo/{id}', [PurchaseOrderController::class, 'update'])->name('po.update');
-  Route::get('/deletepo/{id}', [PurchaseOrderController::class, 'delete'])->name('po.delete');
-  // Route::get('/purchase-list', [PurchaseListController::class, 'index'])->name('pl.index');
+  Route::get('/purchase-order/add', [PurchaseOrderController::class, 'add'])->name('po.add');
+  Route::post('/purchase-order/create', [PurchaseOrderController::class, 'create'])->name('po.create');
+  Route::get('/purchase-order/edit/{id}', [PurchaseOrderController::class, 'edit'])->name('po.edit');
+  Route::put('/purchase-order/update/{id}', [PurchaseOrderController::class, 'update'])->name('po.update');
+  Route::get('/purchase-order/delete/{id}', [PurchaseOrderController::class, 'delete'])->name('po.delete');
   Route::get('/purchase-record', [PurchaseRecordController::class, 'index'])->name('po.purchaserecord');
 
   Route::get('/sales-order', [SalesOrderController::class, 'index'])->name('so.index');
-  Route::get('/addso', [SalesOrderController::class, 'add'])->name('so.add');
-  Route::post('/createso', [SalesOrderController::class, 'create'])->name('so.create');
-  // Route::get('/sales-list', [SalesListController::class, 'index'])->name('sl.index');
-  Route::get('/sales-record', [SalesRecordController::class, 'index'])->name('salesrecord.index');
+  Route::get('/sales-order//add', [SalesOrderController::class, 'add'])->name('so.add');
+  Route::post('/sales-order/create', [SalesOrderController::class, 'create'])->name('so.create');
+  Route::get('/sales-order/edit/{id}', [SalesOrderController::class, 'edit'])->name('so.edit');
+  Route::put('/sales-order/update/{id}', [SalesOrderController::class, 'update'])->name('so.update');
+  Route::get('/sales-order/delete/{id}', [SalesOrderController::class, 'delete'])->name('so.delete');
+  Route::get('/sales-record', [SalesRecordController::class, 'index'])->name('so.salesrecord');
 
   Route::get('/report/buys/3-months', [ReportController::class, 'buysReportThreeMonths'])->name('buysReportThreeMonths');
   Route::get('/report/buys/6-months', [ReportController::class, 'buysReportSixMonths'])->name('buysReportSixMonths');

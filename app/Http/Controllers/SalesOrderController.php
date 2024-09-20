@@ -26,16 +26,18 @@ class SalesOrderController extends Controller
     public function add()
     {
         $data = [
-            'title' => 'Add Purchase Order'
+            'title' => 'Add Sales Order'
         ];
         $SOs = SalesOrder::all();
         $Prods = ProductList::all();
-
+        $SalesOrder = SalesOrder::join('product_lists', 'sales_orders.po_id', 'product_lists.po_id')
+            ->select('sales_orders.*', 'product_lists.*')
+            ->get();
 
         // พิมพ์ค่าของตัวแปรเพื่อดีบัก
         // dd(array_merge($data, compact('users')));
 
-        return view('salesorder.addSO', array_merge($data, compact('SOs', 'Prods')));
+        return view('salesorder.addSO', array_merge($data, compact('SOs', 'Prods', 'SalesOrder')));
     }
 
     public function create(Request $request)
@@ -123,5 +125,72 @@ class SalesOrderController extends Controller
 
         // Redirect back to dashboard
         return back()->with('success', 'นำออกสินค้าสำเร็จ');
+    }
+
+    public function edit($id)
+    {
+        $data = [
+            'title' => 'Edit Sales Order'
+        ];
+        $SO = SalesOrder::findOrFail($id); // ดึงข้อมูล SO ที่ต้องการแก้ไข
+        $SalesList = SalesList::where('so_id', $SO->so_id)->get(); // ดึงข้อมูล SalesList ของ SO นั้น
+        $Prods = ProductList::all(); // ดึงข้อมูล Product ทั้งหมด
+
+        return view('salesorder.editSO', array_merge($data, compact('SO', 'SalesList', 'Prods')));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function delete($id)
+    {
+        // ลบข้อมูลใน SalesList ที่มี id ตรงกับที่ระบุ
+        $salesList = SalesList::where('id', $id)->first();
+
+        // Check if the product exists in ProductList
+        $product = ProductList::where('prod_name', $salesList->so_prod_name)->first();
+
+        $newQtyAll = $product->prod_buy_qty + $salesList->so_prod_quantity;
+        $newQtyStock = $product->prod_min_qty + $salesList->so_prod_quantity;
+
+        // dd($salesList, $product, $salesList->so_prod_quantity, $product->prod_buy_qty, $product->prod_min_qty, $newQtyAll, $newQtyStock);
+
+        $product->update([
+            'prod_buy_qty' => $newQtyAll,
+            'prod_min_qty' => $newQtyStock,
+            'updated_at' => now(),
+        ]);
+
+        // ตรวจสอบว่ามีรายการอยู่หรือไม่
+        if ($salesList) {
+            $salesList->delete();
+            return redirect()->back()->with('success', 'ลบสำเร็จ');
+        } else {
+            return redirect()->back()->with('error', 'ไม่พบรายการที่ต้องการลบ');
+        }
     }
 }

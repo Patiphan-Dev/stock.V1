@@ -6,46 +6,6 @@
         $(document).ready(function() {
             $('.select2').select2();
 
-            let rowCount = 1; // Start with one row
-
-            // Function to create a new row with unique IDs
-            var template = (index) => `
-                <div class="input-wrapper row">
-                    <div class="col-md-5 col-sm-6">
-                        <input type="text" class="form-control" name="po_prod_name[]" value="{{ old('po_prod_name.1') }}">
-                        @error('po_prod_name.1')
-                            <p class="error">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="col-md-2 col-sm-6">
-                        <input type="text" class="form-control" name="po_prod_quantity[]" id="quantity${index}" oninput="calculateTotal(${index})" value="{{ old('po_prod_quantity.1') }}">
-                        @error('po_prod_quantity.1')
-                            <p class="error">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="col-md-2 col-sm-6">
-                        <input type="text" class="form-control" name="po_prod_price_per_unit[]" id="price${index}" oninput="calculateTotal(${index})" value="{{ old('po_prod_price_per_unit.1') }}">
-                        @error('po_prod_price_per_unit.1')
-                            <p class="error">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="col-md-2 col-sm-6">
-                        <input type="text" class="form-control" name="po_prod_price[]" id="total${index}" readonly value="{{ old('po_prod_price.1') }}">
-                        @error('po_prod_price.1')
-                            <p class="error">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="col-md-1 col-sm-6">
-                        <button type="button" class="btn btn-danger form-group delete-row"><i class="fa-solid fa-xmark"></i></button>
-                    </div>
-                </div>
-            `;
-
-            $('#add-row').click(function() {
-                rowCount++; // Increment the row count
-                $('#container1').append(template(rowCount)); // Add a new row
-            });
-
             $('#container1').on("click", ".delete-row", function() {
                 $(this).parents(".input-wrapper").remove(); // Remove the specific row
             });
@@ -108,9 +68,10 @@
                         @elseif (session('delete'))
                             <x-flashMsg msg="{{ session('delete') }}" bg="bg-red" />
                         @endif
-                        <form action="{{ route('po.update',['id' => $PO->id]) }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('po.update', ['id' => $PO->id]) }}" method="post"
+                            enctype="multipart/form-data">
                             @csrf
-                            @method('PUT') 
+                            @method('PUT')
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12 col-md-2">
@@ -233,39 +194,46 @@
                                 </div>
                                 <div id="container1">
                                     @foreach ($PurchaseList as $index => $item)
-                                        <div class="input-wrapper row">
+                                        <div class="input-wrapper row mb-3">
                                             <div class="col-md-5 col-sm-6">
-                                                <input type="text" class="form-control" name="po_prod_name[]" value="{{ old('po_prod_name.' . $index, $item->po_prod_name) }}">
+                                                <input type="text" class="form-control" name="po_prod_name[]"
+                                                    value="{{ old('po_prod_name.' . $index, $item->po_prod_name) }}">
                                                 @error('po_prod_name.' . $index)
                                                     <p class="error">{{ $message }}</p>
                                                 @enderror
                                             </div>
                                             <div class="col-md-2 col-sm-6">
-                                                <input type="text" class="form-control" name="po_prod_quantity[]" id="quantity{{ $index }}" oninput="calculateTotal({{ $index }})" value="{{ old('po_prod_quantity.' . $index, $item->po_prod_quantity) }}">
-                                                <input type="text" class="form-control" name="old_quantity[]" value="{{ $item->po_prod_quantity }}" hidden>
+                                                <input type="text" class="form-control" name="po_prod_quantity[]"
+                                                    id="quantity{{ $index }}"
+                                                    oninput="calculateTotal({{ $index }})"
+                                                    value="{{ old('po_prod_quantity.' . $index, $item->po_prod_quantity) }}">
+                                                <input type="text" class="form-control" name="old_quantity[]"
+                                                    value="{{ $item->po_prod_quantity }}" hidden>
                                                 @error('po_prod_quantity.' . $index)
                                                     <p class="error">{{ $message }}</p>
                                                 @enderror
                                             </div>
                                             <div class="col-md-2 col-sm-6">
-                                                <input type="text" class="form-control" name="po_prod_price_per_unit[]" id="price{{ $index }}" oninput="calculateTotal({{ $index }})" value="{{ old('po_prod_price_per_unit.' . $index, $item->po_prod_price_per_unit) }}">
+                                                <input type="text" class="form-control"
+                                                    name="po_prod_price_per_unit[]" id="price{{ $index }}"
+                                                    oninput="calculateTotal({{ $index }})"
+                                                    value="{{ old('po_prod_price_per_unit.' . $index, $item->po_prod_price_per_unit) }}">
                                                 @error('po_prod_price_per_unit.' . $index)
                                                     <p class="error">{{ $message }}</p>
                                                 @enderror
                                             </div>
                                             <div class="col-md-2 col-sm-6">
-                                                <input type="text" class="form-control" name="po_prod_price[]" id="total{{ $index }}" readonly value="{{ old('po_prod_price.' . $index, $item->po_prod_price) }}">
+                                                <input type="text" class="form-control" name="po_prod_price[]"
+                                                    id="total{{ $index }}" readonly
+                                                    value="{{ old('po_prod_price.' . $index, $item->po_prod_price) }}">
                                                 @error('po_prod_price.' . $index)
                                                     <p class="error">{{ $message }}</p>
                                                 @enderror
                                             </div>
-                                            <div class="col-md-1 col-sm-6">
-                                                <button type="button" class="btn btn-danger form-group delete-row"><i class="fa-solid fa-xmark"></i></button>
-                                            </div>
                                         </div>
                                     @endforeach
                                 </div>
-                                
+
                                 <div class="form-group" id="container1">
                                 </div>
                                 <div class="col text-right justify-content-end">

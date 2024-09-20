@@ -231,37 +231,29 @@ class PurchaseOrderController extends Controller
 
     public function delete($id)
     {
-        $PO = PurchaseOrder::findOrFail($id);
+        // ลบข้อมูลใน PurchaseList ที่มี id ตรงกับที่ระบุ
+        $purchaseList = PurchaseList::where('id', $id)->first();
 
-        dd($id, $PO);
+        // Check if the product exists in ProductList
+        $product = ProductList::where('prod_name', $purchaseList->po_prod_name)->first();
 
-        // PurchaseList::where('po_id', $PO->po_id)->delete();
+        $newQtyAll = $product->prod_buy_qty - $purchaseList->po_prod_quantity;
+        $newQtyStock = $product->prod_min_qty - $purchaseList->po_prod_quantity;
 
-        // foreach ($request->po_prod_name as $i => $prodName) {
-        //     PurchaseList::create([
-        //         'po_id' => $PO->po_id,
-        //         'po_prod_name' => $prodName,
-        //         'po_prod_quantity' => $request->po_prod_quantity[$i],
-        //         'po_prod_price_per_unit' => $request->po_prod_price_per_unit[$i],
-        //         'po_prod_price' => $request->po_prod_price[$i],
-        //         'created_at' => now(),
-        //         'updated_at' => now(),
-        //     ]);
+        // dd($purchaseList, $product, $purchaseList->po_prod_quantity, $product->prod_buy_qty, $product->prod_min_qty, $newQtyAll, $newQtyStock);
 
-        //     $product = ProductList::where('prod_name', $prodName)->first();
-        //     $newQty = $request->old_quantity[$i] - $request->po_prod_quantity[$i];
-        //     $newQtyAll = $product->prod_buy_qty - $newQty;
-        //     $newQtyStock = $product->prod_min_qty - $newQty;
+        $product->update([
+            'prod_buy_qty' => $newQtyAll,
+            'prod_min_qty' => $newQtyStock,
+            'updated_at' => now(),
+        ]);
 
-        //     $product->update([
-        //         'prod_price_per_unit' => $request->po_prod_price_per_unit[$i],
-        //         'prod_price' => $request->po_prod_price[$i],
-        //         'prod_buy_qty' => $newQtyAll,
-        //         'prod_min_qty' => $newQtyStock,
-        //         'updated_at' => now(),
-        //     ]);
-        // }
-
-        return redirect()->back()->with('error', 'ไม่พบผู้ใช้ที่ต้องการลบ');
+        // ตรวจสอบว่ามีรายการอยู่หรือไม่
+        if ($purchaseList) {
+            $purchaseList->delete();
+            return redirect()->back()->with('success', 'ลบสำเร็จ');
+        } else {
+            return redirect()->back()->with('error', 'ไม่พบรายการที่ต้องการลบ');
+        }
     }
 }

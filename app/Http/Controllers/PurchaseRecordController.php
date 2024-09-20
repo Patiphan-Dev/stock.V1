@@ -14,16 +14,21 @@ class PurchaseRecordController extends Controller
         $data = [
             'title' => 'Purchase Record'
         ];
-        $POs = PurchaseOrder::join('purchase_lists', 'purchase_orders.po_id', 'purchase_lists.po_id')
+        // ดึงข้อมูล PurchaseOrder พร้อมกับ id ของ PurchaseList และ id ของ PurchaseOrder
+        $POs = PurchaseOrder::join('purchase_lists', 'purchase_orders.po_id', '=', 'purchase_lists.po_id')
             ->select(
-                'purchase_orders.*',
+                'purchase_orders.id as purchase_order_id', // ดึง id ของ PurchaseOrder
+                'purchase_orders.po_company_name as po_company_name',
+                'purchase_orders.po_id',
+                'purchase_lists.id as purchase_list_id',   // ดึง id ของ PurchaseList
                 'purchase_lists.po_prod_name',
                 'purchase_lists.po_prod_quantity',
                 'purchase_lists.po_prod_price_per_unit',
                 'purchase_lists.po_prod_price'
-            )->get();
-        $PLs = PurchaseList::all();
-        
-        return view('purchaseorder.purchaserecord', array_merge($data, compact('POs', 'PLs')));
+            )
+            ->get();
+
+        // ส่งข้อมูลไปยัง view
+        return view('purchaseorder.purchaserecord', array_merge($data, compact('POs')));
     }
 }

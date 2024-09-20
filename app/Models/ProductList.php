@@ -13,7 +13,6 @@ class ProductList extends Model
         'prod_name',
         'prod_length',
         'prod_price_per_unit',
-        'prod_price',
         'prod_buy_qty',
         'prod_sales_qty',
         'prod_min_qty',
