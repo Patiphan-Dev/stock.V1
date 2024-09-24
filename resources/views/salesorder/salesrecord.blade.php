@@ -3,6 +3,11 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
+                    @if (session('success'))
+                        <x-flashMsg msg="{{ session('success') }}" bg="bg-green" />
+                    @elseif (session('error'))
+                        <x-flashMsg msg="{{ session('error') }}" bg="bg-red" />
+                    @endif
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">บันทึกการขาย</h3>

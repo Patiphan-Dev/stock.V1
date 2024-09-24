@@ -27,7 +27,13 @@ Route::middleware('auth')->group(function () {
   Route::get('/', [DashboardController::class, 'index'])->name('home');
 
   Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
   Route::get('/product', [ProductController::class, 'index'])->name('product.index');
+  Route::get('/product/add', [ProductController::class, 'add'])->name('product.add');
+  Route::post('/product/create', [ProductController::class, 'create'])->name('product.create');
+  Route::get('/product/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
+  Route::put('/product/update/{id}', [ProductController::class, 'update'])->name('product.update');
+  Route::get('/product/delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
 
   Route::get('/purchase-order', [PurchaseOrderController::class, 'index'])->name('po.index');
   Route::get('/purchase-order/add', [PurchaseOrderController::class, 'add'])->name('po.add');
@@ -45,16 +51,12 @@ Route::middleware('auth')->group(function () {
   Route::get('/sales-order/delete/{id}', [SalesOrderController::class, 'delete'])->name('so.delete');
   Route::get('/sales-record', [SalesRecordController::class, 'index'])->name('so.salesrecord');
 
-  Route::get('/report/buys/3-months', [ReportController::class, 'buysReportThreeMonths'])->name('buysReportThreeMonths');
-  Route::get('/report/buys/6-months', [ReportController::class, 'buysReportSixMonths'])->name('buysReportSixMonths');
-  Route::get('/report/sales/3-months', [ReportController::class, 'salesReportThreeMonths'])->name('salesReportThreeMonths');
-  Route::get('/report/sales/6-months', [ReportController::class, 'salesReportSixMonths'])->name('salesReportSixMonths');
+  Route::get('/sales/report', [ReportController::class, 'index'])->name('sales.report');
 
   Route::get('/users', [UserController::class, 'index'])->name('users.index');
-  Route::get('/adduser', [UserController::class, 'adduser'])->name('users.adduser');
-  Route::post('/createuser', [UserController::class, 'createuser'])->name('users.createuser');
-  Route::get('/edituser/{id}', [UserController::class, 'edituser'])->name('users.edituser');
-  Route::put('/updateuser/{id}', [UserController::class, 'updateuser'])->name('users.updateuser');
-  Route::get('/deleteuser/{id}', [UserController::class, 'deleteuser'])->name('users.deleteuser');
-
+  Route::get('/user/add', [UserController::class, 'adduser'])->name('users.adduser');
+  Route::post('/user/create', [UserController::class, 'createuser'])->name('users.createuser');
+  Route::get('/user/edit/{id}', [UserController::class, 'edituser'])->name('users.edituser');
+  Route::put('/user/update/{id}', [UserController::class, 'updateuser'])->name('users.updateuser');
+  Route::get('/user/delete/{id}', [UserController::class, 'deleteuser'])->name('users.deleteuser');
 });

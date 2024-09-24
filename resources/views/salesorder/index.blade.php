@@ -87,10 +87,10 @@
 
 
             // After updating the row, recalculate overall totals
-            calculateOverallTotals();
+            calculateOverallTotals2();
         }
 
-        function calculateOverallTotals() {
+        function calculateOverallTotals2() {
             // Get all the product totals
             const totals = document.querySelectorAll("input[name='so_prod_price[]']");
             let totalPrice = 0;
@@ -200,7 +200,6 @@
                                     </div>
                                 </div>
                                 <hr>
-
                                 <div class="row">
                                     <div class="col-md-3 col-6">
                                         <div class="form-group">
@@ -234,7 +233,7 @@
                                     </div>
                                 </div>
                                 <div id="container1">
-                                    <div class="row">
+                                    <div class="input-wrapper row mb-3">
                                         <div class="col-md-3 col-6">
                                             <input type="text" class="form-control" name="so_prod_name[]"
                                                    value="{{ old('so_prod_name.0') }}">
@@ -242,7 +241,6 @@
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
                                         </div>
-                                        
                                         <div class="col-md-1 col-6">
                                             <input type="text" class="form-control" name="so_prod_length[]"
                                                    id="length1" value="{{ old('so_prod_length.0') }}">
@@ -250,7 +248,6 @@
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
                                         </div>
-                                        
                                         <div class="col-md-1 col-6">
                                             <input type="text" class="form-control" name="so_prod_quantity[]"
                                                    id="quantity1" oninput="calculateTotal2(1)"
@@ -259,7 +256,6 @@
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
                                         </div>
-                                        
                                         <div class="col-md-2 col-6">
                                             <input type="text" class="form-control" name="so_prod_total_length[]"
                                                    id="total_length1" readonly
@@ -268,7 +264,6 @@
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
                                         </div>
-                                        
                                         <div class="col-md-2 col-6">
                                             <input type="text" class="form-control" name="so_prod_price_per_unit[]"
                                                    id="price1" oninput="calculateTotal2(1)"
@@ -277,7 +272,6 @@
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
                                         </div>
-                                        
                                         <div class="col-md-2 col-6">
                                             <input type="text" class="form-control" name="so_prod_price[]"
                                                    id="total1" readonly value="{{ old('so_prod_price.0') }}">
@@ -285,7 +279,6 @@
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
                                         </div>
-                                        
                                         <div class="col-md-1 col-6">
                                             <button type="button" class="btn btn-success form-group" id="add-row">
                                                 <i class="fa-solid fa-plus"></i>
@@ -293,7 +286,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="form-group" id="container1">
                                 </div>
                                 <div class="col text-right justify-content-end">

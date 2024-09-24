@@ -49,17 +49,17 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('users.index') }}"
-                        class="nav-link {{ $current_route == 'users.index' || $current_route == '' ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-users"></i>
+                    <a href="{{ route('sales.report') }}"
+                        class="nav-link {{ $current_route == 'sales.report' ? 'active' : '' }}">
+                        <i class="nav-icon fa-solid fa-newspaper"></i>
                         <p>
-                            จักการสมาชิก
+                            รายงานการขาย
                         </p>
                     </a>
                 </li>
-                <li class="nav-item @if ($current_route == 'po.index' || $current_route == 'po.purchaserecord') menu-is-opening menu-open @endif">
+                <li class="nav-item @if ($current_route == 'po.index' || $current_route == 'po.edit' || $current_route == 'po.purchaserecord') menu-is-opening menu-open @endif">
                     <a href="#"
-                        class="nav-link {{ $current_route == 'po.index' || $current_route == 'po.purchaserecord' ? 'active' : '' }}">
+                        class="nav-link {{ $current_route == 'po.index' || $current_route == 'po.edit' || $current_route == 'po.purchaserecord' ? 'active' : '' }}">
                         <i class="nav-icon fa-solid fa-right-to-bracket"></i>
                         <p>
                             ใบสั่งซื้อ (PO)
@@ -69,7 +69,7 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{ route('po.purchaserecord') }}"
-                                class="nav-link {{ $current_route == 'po.purchaserecord' ? 'active' : '' }}">
+                                class="nav-link {{ $current_route == 'po.purchaserecord' || $current_route == 'po.edit' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon ml-3"></i>
                                 <p>บันทึกการซื้อ</p>
                             </a>
@@ -83,9 +83,9 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item @if ($current_route == 'so.index' || $current_route == 'so.salesrecord') menu-is-opening menu-open @endif">
+                <li class="nav-item @if ($current_route == 'so.index' || $current_route == 'so.edit' || $current_route == 'so.salesrecord') menu-is-opening menu-open @endif">
                     <a href="#"
-                        class="nav-link {{ $current_route == 'so.index' || $current_route == 'so.salesrecord' ? 'active' : '' }}">
+                        class="nav-link {{ $current_route == 'so.index' || $current_route == 'so.edit' || $current_route == 'so.salesrecord' ? 'active' : '' }}">
                         <i class="nav-icon fa-solid fa-right-from-bracket"></i>
                         <p>
                             ใบสั่งขาย (SO)
@@ -95,7 +95,7 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{ route('so.salesrecord') }}"
-                                class="nav-link {{ $current_route == 'so.salesrecord' ? 'active' : '' }}">
+                                class="nav-link {{ $current_route == 'so.salesrecord' || $current_route == 'so.edit' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon ml-3"></i>
                                 <p>บันทึกการขาย</p>
                             </a>
@@ -111,86 +111,21 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('product.index') }}"
-                        class="nav-link {{ $current_route == 'product.index' ? 'active' : '' }}">
+                        class="nav-link {{ $current_route == 'product.index' || $current_route == 'product.add' || $current_route == 'product.edit' ? 'active' : '' }}">
                         <i class="nav-icon fa-solid fa-warehouse"></i>
                         <p>
                             เช็คสต๊อกสินค้า
                         </p>
                     </a>
                 </li>
-                <li class="nav-item @if (
-                    $current_route == 'salesReportThreeMonths' ||
-                        $current_route == 'salesReportSixMonths' ||
-                        $current_route == 'buysReportThreeMonths' ||
-                        $current_route == 'buysReportSixMonths') menu-is-opening menu-open @endif">
-                    <a href="#"
-                        class="nav-link 
-                        {{ $current_route == 'salesReportThreeMonths' ||
-                        $current_route == 'salesReportSixMonths' ||
-                        $current_route == 'buysReportThreeMonths' ||
-                        $current_route == 'buysReportSixMonths'
-                            ? 'active'
-                            : '' }}">
-                        <i class="nav-icon fa-solid fa-file-lines"></i>
+                <li class="nav-item">
+                    <a href="{{ route('users.index') }}"
+                        class="nav-link {{ $current_route == 'users.index' || $current_route == 'users.adduser' || $current_route == 'users.edituser' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-users"></i>
                         <p>
-                            รายงาน
-                            <i class="right fas fa-angle-left"></i>
+                            จักการสมาชิก
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item @if ($current_route == 'buysReportThreeMonths' || $current_route == 'buysReportSixMonths') menu-is-opening menu-open @endif">
-                            <a href="#"
-                                class="nav-link {{ $current_route == 'buysReportThreeMonths' || $current_route == 'buysReportThreeMonths' ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon ml-3"></i>
-                                <p>
-                                    การซื้อ
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('buysReportThreeMonths') }}"
-                                        class="nav-link {{ $current_route == 'buysReportThreeMonths' ? 'active' : '' }}">
-                                        <i class="far fa-dot-circle nav-icon ml-4"></i>
-                                        <p>3 เดือนย้อนหลัง</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('buysReportSixMonths') }}"
-                                        class="nav-link {{ $current_route == 'buysReportSixMonths' ? 'active' : '' }}">
-                                        <i class="far fa-dot-circle nav-icon ml-4"></i>
-                                        <p>6 เดือนย้อนหลัง</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item @if ($current_route == 'salesReportThreeMonths' || $current_route == 'salesReportSixMonths') menu-is-opening menu-open @endif">
-                            <a href="#"
-                                class="nav-link {{ $current_route == 'salesReportThreeMonths' || $current_route == 'salesReportSixMonths' ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon ml-3"></i>
-                                <p>
-                                    การขาย
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('salesReportThreeMonths') }}"
-                                        class="nav-link {{ $current_route == 'salesReportThreeMonths' ? 'active' : '' }}">
-                                        <i class="far fa-dot-circle nav-icon ml-4"></i>
-                                        <p>3 เดือนย้อนหลัง</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('salesReportSixMonths') }}"
-                                        class="nav-link {{ $current_route == 'salesReportSixMonths' ? 'active' : '' }}">
-                                        <i class="far fa-dot-circle nav-icon ml-4"></i>
-                                        <p>6 เดือนย้อนหลัง</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
                 </li>
             </ul>
         </nav>

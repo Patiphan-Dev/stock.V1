@@ -14,63 +14,48 @@ use App\Models\SalesList;
 class ReportController extends Controller
 {
 
-    public function buysReportThreeMonths()
+    public function index(Request $request)
     {
         $data = [
-            'title' => 'Buys Report Three Months'
+            'title' => 'Sales Reports'
         ];
-        // วันที่เริ่มต้น (3 เดือนก่อน)
-        $threeMonthsAgo = Carbon::now()->subMonths(3);
 
-        // ดึงข้อมูลการขายสินค้าภายใน 3 เดือนย้อนหลัง
-        $reports = PurchaseList::where('created_at', '>=', $threeMonthsAgo)
-            ->get();
+        // อ่านค่าฟิลเตอร์จาก request (ถ้าไม่มี ให้ใช้เป็นค่าเริ่มต้น 'all')
+        $filterPeriod = $request->input('filter_period', 'all');
 
-        return view('reports.buys.3-months', array_merge($data, compact('reports')));
-    }
+        // กำหนดค่าของวันนี้
+        $today = Carbon::now();
 
-    public function buysReportSixMonths()
-    {
-        $data = [
-            'title' => 'Buys Report Six Months'
-        ];
-        // วันที่เริ่มต้น (6 เดือนก่อน)
-        $sixMonthsAgo = Carbon::now()->subMonths(6);
+        // ตรวจสอบค่าฟิลเตอร์ที่ผู้ใช้เลือก
+        if ($filterPeriod == '3_months') {
+            $startDate = $today->copy()->subMonths(3);
+        } elseif ($filterPeriod == '6_months') {
+            $startDate = $today->copy()->subMonths(6);
+        } elseif ($filterPeriod == '1_year') {
+            $startDate = $today->copy()->subYear();
+        } else {
+            // หากไม่เลือกฟิลเตอร์ (แสดงสินค้าทั้งหมด)
+            $startDate = null;
+        }
 
-        // ดึงข้อมูลการขายสินค้าภายใน 6 เดือนย้อนหลัง
-        $reports = PurchaseList::where('created_at', '>=', $sixMonthsAgo)
-            ->get();
+        // คิวรีข้อมูลสินค้าขายดี
+        $salesQuery = SalesList::select(
+            'so_prod_name',
+            SalesList::raw('SUM(so_prod_quantity) as total_quantity'),
+            SalesList::raw('SUM(so_prod_total_length) as total_length'),
+            SalesList::raw('SUM(so_prod_price) as total_price')
+        )
+            ->groupBy('so_prod_name')
+            ->orderBy('total_quantity', 'desc');
 
-        return view('reports.buys.6-months', array_merge($data, compact('reports')));
-    }
+        // ถ้ามีการเลือกช่วงเวลา ให้เพิ่มเงื่อนไข where
+        if ($startDate) {
+            $salesQuery->whereBetween('created_at', [$startDate, $today]);
+        }
 
-    public function salesReportThreeMonths()
-    {
-        $data = [
-            'title' => 'Sales Report Three Months'
-        ];
-        // วันที่เริ่มต้น (3 เดือนก่อน)
-        $threeMonthsAgo = Carbon::now()->subMonths(3);
+        // ดึงข้อมูลจากคิวรี
+        $salesData = $salesQuery->get();
 
-        // ดึงข้อมูลการขายสินค้าภายใน 3 เดือนย้อนหลัง
-        $reports = SalesList::where('created_at', '>=', $threeMonthsAgo)
-            ->get();
-
-        return view('reports.sales.3-months', array_merge($data, compact('reports')));
-    }
-
-    public function salesReportSixMonths()
-    {
-        $data = [
-            'title' => 'Sales Report Six Months'
-        ];
-        // วันที่เริ่มต้น (6 เดือนก่อน)
-        $sixMonthsAgo = Carbon::now()->subMonths(6);
-
-        // ดึงข้อมูลการขายสินค้าภายใน 6 เดือนย้อนหลัง
-        $reports = SalesList::where('created_at', '>=', $sixMonthsAgo)
-            ->get();
-
-        return view('reports.sales.6-months', array_merge($data, compact('reports')));
+        return view('reports.index', array_merge($data, compact('salesData')));
     }
 }

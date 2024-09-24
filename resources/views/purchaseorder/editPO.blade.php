@@ -5,11 +5,6 @@
     <script>
         $(document).ready(function() {
             $('.select2').select2();
-
-            $('#container1').on("click", ".delete-row", function() {
-                $(this).parents(".input-wrapper").remove(); // Remove the specific row
-            });
-
         });
     </script>
     <script>
@@ -171,7 +166,7 @@
                                 </div>
                                 <hr>
                                 <div class="row">
-                                    <div class="col-md-5 col-sm-4">
+                                    <div class="col-md-6 col-sm-4">
                                         <div class="form-group">
                                             <label for="quantity" class="form-label">รายการสินค้า </label>
                                         </div>
@@ -197,7 +192,7 @@
                                         <div class="input-wrapper row mb-3">
                                             <div class="col-md-5 col-sm-6">
                                                 <input type="text" class="form-control" name="po_prod_name[]"
-                                                    value="{{ old('po_prod_name.' . $index, $item->po_prod_name) }}">
+                                                    value="{{ old('po_prod_name.' . $index, $item->po_prod_name) }}" readonly>
                                                 @error('po_prod_name.' . $index)
                                                     <p class="error">{{ $message }}</p>
                                                 @enderror

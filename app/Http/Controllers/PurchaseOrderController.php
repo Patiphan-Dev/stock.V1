@@ -111,7 +111,6 @@ class PurchaseOrderController extends Controller
                         'po_id' => $poid,
                         'prod_name' => $prodName,
                         'prod_price_per_unit' => $request->po_prod_price_per_unit[$i],
-                        'prod_price' => $request->po_prod_price[$i],
                         'prod_buy_qty' => $request->po_prod_quantity[$i],
                         'prod_sales_qty' => 0,
                         'prod_min_qty' => $request->po_prod_quantity[$i],
@@ -125,7 +124,6 @@ class PurchaseOrderController extends Controller
 
                     $product->update([
                         'prod_price_per_unit' => $request->po_prod_price_per_unit[$i],
-                        'prod_price' => $request->po_prod_price[$i],
                         'prod_buy_qty' => $newQty,
                         'prod_min_qty' => $minQty,
                         'updated_at' => now(),
@@ -209,11 +207,20 @@ class PurchaseOrderController extends Controller
 
                 // Check if the product exists in ProductList
                 $product = ProductList::where('prod_name', $prodName)->first();
-                $newQty = $request->old_quantity[$i] - $request->po_prod_quantity[$i];
-                $newQtyAll = $product->prod_buy_qty - $newQty;
-                $newQtyStock = $product->prod_min_qty - $newQty;
+                $newQty =$request->po_prod_quantity[$i] -  $request->old_quantity[$i];
+                $newQtyAll = $product->prod_buy_qty + $newQty;
+                $newQtyStock = $product->prod_min_qty + $newQty;
 
-                // dd($newQty, $request->po_prod_quantity[$i], $request->old_quantity[$i], $product->prod_buy_qty, $product->prod_sales_qty, $product->prod_min_qty,$newQtyAll,$newQtyStock);
+                // dd(
+                //     $newQty,
+                //     $request->po_prod_quantity[$i],
+                //     $request->old_quantity[$i],
+                //     $product->prod_buy_qty,
+                //     $product->prod_sales_qty,
+                //     $product->prod_min_qty,
+                //     $newQtyAll,
+                //     $newQtyStock
+                // );
 
                 $product->update([
                     'prod_price_per_unit' => $request->po_prod_price_per_unit[$i],
@@ -240,7 +247,15 @@ class PurchaseOrderController extends Controller
         $newQtyAll = $product->prod_buy_qty - $purchaseList->po_prod_quantity;
         $newQtyStock = $product->prod_min_qty - $purchaseList->po_prod_quantity;
 
-        // dd($purchaseList, $product, $purchaseList->po_prod_quantity, $product->prod_buy_qty, $product->prod_min_qty, $newQtyAll, $newQtyStock);
+        // dd(
+        //     $purchaseList,
+        //     $product,
+        //     $purchaseList->po_prod_quantity,
+        //     $product->prod_buy_qty,
+        //     $product->prod_min_qty,
+        //     $newQtyAll,
+        //     $newQtyStock
+        // );
 
         $product->update([
             'prod_buy_qty' => $newQtyAll,

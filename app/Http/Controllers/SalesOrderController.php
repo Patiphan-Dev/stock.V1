@@ -7,6 +7,7 @@ use App\Models\SalesOrder;
 use App\Models\SalesList;
 use App\Models\ProductList;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class SalesOrderController extends Controller
 {
@@ -30,7 +31,7 @@ class SalesOrderController extends Controller
         ];
         $SOs = SalesOrder::all();
         $Prods = ProductList::all();
-        $SalesOrder = SalesOrder::join('product_lists', 'sales_orders.po_id', 'product_lists.po_id')
+        $SalesOrder = SalesOrder::join('product_lists', 'sales_orders.so_id', 'product_lists.so_id')
             ->select('sales_orders.*', 'product_lists.*')
             ->get();
 
@@ -88,7 +89,7 @@ class SalesOrderController extends Controller
                 'so_prod_name' => $request->so_prod_name[$i],
                 'so_prod_length' => $request->so_prod_length[$i],
                 'so_prod_quantity' => $request->so_prod_quantity[$i],
-                'so_prod_total_length' => $request->so_prod_quantity[$i],
+                'so_prod_total_length' => $request->so_prod_total_length[$i],
                 'so_prod_price_per_unit' => $request->so_prod_price_per_unit[$i],
                 'so_prod_price' => $request->so_prod_price[$i],
                 'created_at' => now(),
@@ -139,32 +140,87 @@ class SalesOrderController extends Controller
         return view('salesorder.editSO', array_merge($data, compact('SO', 'SalesList', 'Prods')));
     }
 
+    public function update(Request $request, $id)
+    {
+        // Validate input
+        $request->validate([
+            'so_number' => ['required', 'max:20'],
+            'so_date' => ['required', 'date'],
+            'so_customer_name' => ['required', 'max:250'],
+            'so_customer_address' => ['required', 'max:250'],
+            'so_customer_taxpayer_number' => ['required', 'max:13'],
+            'so_total_price' => ['required'],
+            'so_vat' => ['required'],
 
+            'so_prod_name.*' => ['required'],
+            'so_prod_quantity.*' => ['required', 'numeric'],
+            'so_prod_price_per_unit.*' => ['required', 'numeric'],
+            'so_prod_price.*' => ['required', 'numeric'],
+        ]);
 
+        // Use DB transaction to handle the updates
+        DB::transaction(function () use ($request, $id) {
+            $SO = SalesOrder::findOrFail($id);
 
+            // Update SalesOrder
+            $SO->update([
+                'so_number' => $request->so_number,
+                'so_date' => $request->so_date,
+                'so_customer_name' => $request->so_customer_name,
+                'so_customer_address' => $request->so_customer_address,
+                'so_customer_taxpayer_number' => $request->so_customer_taxpayer_number,
+                'so_total_price' => $request->so_total_price,
+                'so_vat' => $request->so_vat,
+                'so_net_price' => $request->so_net_price,
+                'so_note' => $request->so_note,
+                'updated_at' => now(),
+            ]);
 
+            // Delete existing PurchaseList entries for this PO
+            SalesList::where('so_id', $SO->so_id)->delete();
 
+            // Insert updated SalesList entries
+            foreach ($request->so_prod_name as $i => $prodName) {
+                SalesList::create([
+                    'so_id' => $SO->so_id,
+                    'so_prod_name' => $prodName,
+                    'so_prod_length' => $request->so_prod_length[$i],
+                    'so_prod_quantity' => $request->so_prod_quantity[$i],
+                    'so_prod_total_length' => $request->so_prod_total_length[$i],
+                    'so_prod_price_per_unit' => $request->so_prod_price_per_unit[$i],
+                    'so_prod_price' => $request->so_prod_price[$i],
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
 
+                // Check if the product exists in ProductList
+                $product = ProductList::where('prod_name', $prodName)->first();
+                $newQty = $request->so_prod_quantity[$i] - $request->old_quantity[$i];
+                $newQtyAll = $product->prod_sales_qty + $newQty;
+                $newQtyStock = $product->prod_min_qty - $newQty;
 
+                // dd(
+                //     $newQty,
+                //     $request->so_prod_quantity[$i],
+                //     $request->old_quantity[$i],
+                //     $product->prod_sales_qty,
+                //     $product->prod_min_qty,
+                //     $newQtyAll,
+                //     $newQtyStock
+                // );
 
+                $product->update([
+                    'prod_price_per_unit' => $request->so_prod_price_per_unit[$i],
+                    'prod_sales_qty' => $newQtyAll,
+                    'prod_min_qty' => $newQtyStock,
+                    'updated_at' => now(),
+                ]);
+            }
+        });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        // Redirect back to SalesOrder
+        return redirect()->route('so.salesrecord')->with('success', 'อัปเดตข้อมูลสินค้าสำเร็จ');
+    }
 
     public function delete($id)
     {
@@ -174,13 +230,21 @@ class SalesOrderController extends Controller
         // Check if the product exists in ProductList
         $product = ProductList::where('prod_name', $salesList->so_prod_name)->first();
 
-        $newQtyAll = $product->prod_buy_qty + $salesList->so_prod_quantity;
+        $newQtyAll = $product->prod_sales_qty - $salesList->so_prod_quantity;
         $newQtyStock = $product->prod_min_qty + $salesList->so_prod_quantity;
 
-        // dd($salesList, $product, $salesList->so_prod_quantity, $product->prod_buy_qty, $product->prod_min_qty, $newQtyAll, $newQtyStock);
+        // dd(
+        //     $salesList,
+        //     $product,
+        //     $salesList->so_prod_quantity,
+        //     $product->prod_sales_qty,
+        //     $product->prod_min_qty,
+        //     $newQtyAll,
+        //     $newQtyStock
+        // );
 
         $product->update([
-            'prod_buy_qty' => $newQtyAll,
+            'prod_sales_qty' => $newQtyAll,
             'prod_min_qty' => $newQtyStock,
             'updated_at' => now(),
         ]);

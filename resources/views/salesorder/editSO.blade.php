@@ -5,21 +5,19 @@
     <script>
         $(document).ready(function() {
             $('.select2').select2();
-
-            $('#container1').on("click", ".delete-row", function() {
-                $(this).parents(".input-wrapper").remove(); // Remove the specific row
-            });
-
         });
     </script>
     <script>
-        function calculateTotal(index) {
+        function calculateTotal2(index) {
             const quantity = document.getElementById(`quantity${index}`).value;
             const price = document.getElementById(`price${index}`).value;
             const total = document.getElementById(`total${index}`);
+            const length = document.getElementById(`length${index}`).value;
+            const total_length = document.getElementById(`total_length${index}`);
 
             // Calculate total for this row
             total.value = (quantity && price) ? (quantity * price).toFixed(2) : '';
+            total_length.value = (quantity && length) ? (quantity * length).toFixed(2) : '';
 
             // After updating the row, recalculate overall totals
             calculateOverallTotals();
@@ -74,7 +72,7 @@
                             @method('PUT')
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-12 col-md-2">
+                                    <div class="col-12 col-md-3">
                                         <div class="form-group">
                                             <label for="so_number">เล่มที่</label>
                                             <input type="text" name="so_number" value="{{ $SO->so_number }}"
@@ -138,7 +136,7 @@
                                 </div>
                                 <hr>
                                 <div class="row">
-                                    <div class="col-md-3 col-6">
+                                    <div class="col-md-4 col-6">
                                         <div class="form-group">
                                             <label for="quantity" class="form-label">รายการสินค้า </label>
                                         </div>
@@ -172,14 +170,14 @@
                                 <div id="container1">
                                     @foreach ($SalesList as $index => $item)
                                         <div class="input-wrapper row mb-3">
-                                            <div class="col-md-3 col-6">
+                                            <div class="col-md-4 col-6">
                                                 <input type="text" class="form-control" name="so_prod_name[]"
-                                                    value="{{ old('so_prod_name.' . $index, $item->so_prod_name) }}">
+                                                    value="{{ old('so_prod_name.' . $index, $item->so_prod_name) }}"
+                                                    readonly>
                                                 @error('so_prod_name.0')
                                                     <p class="error">{{ $message }}</p>
                                                 @enderror
                                             </div>
-
                                             <div class="col-md-1 col-6">
                                                 <input type="text" class="form-control" name="so_prod_length[]"
                                                     id="length1"
@@ -188,16 +186,16 @@
                                                     <p class="error">{{ $message }}</p>
                                                 @enderror
                                             </div>
-
                                             <div class="col-md-1 col-6">
                                                 <input type="text" class="form-control" name="so_prod_quantity[]"
                                                     id="quantity1" oninput="calculateTotal2(1)"
                                                     value="{{ old('so_prod_quantity.' . $index, $item->so_prod_quantity) }}">
+                                                <input type="text" class="form-control" name="old_quantity[]"
+                                                    value="{{ $item->so_prod_quantity }}" hidden>
                                                 @error('so_prod_quantity.0')
                                                     <p class="error">{{ $message }}</p>
                                                 @enderror
                                             </div>
-
                                             <div class="col-md-2 col-6">
                                                 <input type="text" class="form-control"
                                                     name="so_prod_total_length[]" id="total_length1" readonly
@@ -206,7 +204,6 @@
                                                     <p class="error">{{ $message }}</p>
                                                 @enderror
                                             </div>
-
                                             <div class="col-md-2 col-6">
                                                 <input type="text" class="form-control"
                                                     name="so_prod_price_per_unit[]" id="price1"
@@ -216,7 +213,6 @@
                                                     <p class="error">{{ $message }}</p>
                                                 @enderror
                                             </div>
-
                                             <div class="col-md-2 col-6">
                                                 <input type="text" class="form-control" name="so_prod_price[]"
                                                     id="total1" readonly
@@ -228,62 +224,62 @@
                                         </div>
                                     @endforeach
                                 </div>
-                            </div>
 
-                            <div class="form-group" id="container1">
-                            </div>
-                            <div class="col text-right justify-content-end">
-                                <div class="row justify-content-end">
-                                    <div class="form-group">
-                                        <label for="so_total_price">รวมราคาสินค้า</label>
-                                        <input type="text" name="so_total_price" id="so_total_price"
-                                            value="{{ old('so_total_price', $SO->so_total_price) }}"
-                                            class="form-control @error('so_total_price') is-invalid @enderror"
-                                            readonly>
-                                        @error('so_total_price')
-                                            <p class="error">{{ $message }}</p>
-                                        @enderror
+                                <div class="form-group" id="container1">
+                                </div>
+                                <div class="col text-right justify-content-end">
+                                    <div class="row justify-content-end">
+                                        <div class="form-group">
+                                            <label for="so_total_price">รวมราคาสินค้า</label>
+                                            <input type="text" name="so_total_price" id="so_total_price"
+                                                value="{{ old('so_total_price', $SO->so_total_price) }}"
+                                                class="form-control @error('so_total_price') is-invalid @enderror"
+                                                readonly>
+                                            @error('so_total_price')
+                                                <p class="error">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-end">
+                                        <div class="form-group">
+                                            <label for="so_vat">ภาษีมูลค่าเพิ่ม 7 %</label>
+                                            <input type="text" name="so_vat" id="so_vat"
+                                                value="{{ old('so_vat', $SO->so_vat) }}"
+                                                class="form-control @error('so_vat') is-invalid @enderror" readonly>
+                                            @error('so_vat')
+                                                <p class="error">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-end">
+                                        <div class="form-group">
+                                            <label for="so_net_price">เงินรวมทั้งสิ้น</label>
+                                            <input type="text" name="so_net_price" id="so_net_price"
+                                                value="{{ old('so_net_price', $SO->so_net_price) }}"
+                                                class="form-control @error('so_net_price') is-invalid @enderror"
+                                                readonly>
+                                            @error('so_net_price')
+                                                <p class="error">{{ $message }}</p>
+                                            @enderror
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row justify-content-end">
-                                    <div class="form-group">
-                                        <label for="so_vat">ภาษีมูลค่าเพิ่ม 7 %</label>
-                                        <input type="text" name="so_vat" id="so_vat"
-                                            value="{{ old('so_vat', $SO->so_vat) }}"
-                                            class="form-control @error('so_vat') is-invalid @enderror" readonly>
-                                        @error('so_vat')
-                                            <p class="error">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="row justify-content-end">
-                                    <div class="form-group">
-                                        <label for="so_net_price">เงินรวมทั้งสิ้น</label>
-                                        <input type="text" name="so_net_price" id="so_net_price"
-                                            value="{{ old('so_net_price', $SO->so_net_price) }}"
-                                            class="form-control @error('so_net_price') is-invalid @enderror" readonly>
-                                        @error('so_net_price')
-                                            <p class="error">{{ $message }}</p>
-                                        @enderror
+                                <hr>
+                                <div class="row text-center">
+                                    <div class="col">
+                                        <a href="" class="btn btn-danger">
+                                            <i class="fa-solid fa-xmark"></i> ยกเลิก
+                                        </a>
+                                        <button type="submit" class="btn btn-success" id="submit">
+                                            <i class="fa-solid fa-floppy-disk"></i> บันทึก
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                            <hr>
-                            <div class="row text-center">
-                                <div class="col">
-                                    <a href="" class="btn btn-danger">
-                                        <i class="fa-solid fa-xmark"></i> ยกเลิก
-                                    </a>
-                                    <button type="submit" class="btn btn-success" id="submit">
-                                        <i class="fa-solid fa-floppy-disk"></i> บันทึก
-                                    </button>
-                                </div>
-                            </div>
+                        </form>
                     </div>
-                    </form>
                 </div>
             </div>
-        </div>
         </div>
     </section>
 </x-layout>
