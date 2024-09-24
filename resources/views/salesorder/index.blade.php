@@ -233,7 +233,7 @@
                                     </div>
                                 </div>
                                 <div id="container1">
-                                    <div class="input-wrapper row mb-3">
+                                    <div class="input-wrapper row">
                                         <div class="col-md-3 col-6">
                                             <input type="text" class="form-control" name="so_prod_name[]"
                                                    value="{{ old('so_prod_name.0') }}">
