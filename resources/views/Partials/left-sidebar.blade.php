@@ -41,7 +41,7 @@
                 data-accordion="false">
                 <li class="nav-item">
                     <a href="{{ route('dashboard.index') }}"
-                        class="nav-link {{ $current_route == 'dashboard.index' || $current_route == '' ? 'active' : '' }}">
+                        class="nav-link {{ $current_route == 'dashboard.index' || $current_route == 'home' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             แดชบอร์ด
@@ -118,15 +118,17 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ route('users.index') }}"
-                        class="nav-link {{ $current_route == 'users.index' || $current_route == 'users.adduser' || $current_route == 'users.edituser' ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>
-                            จักการสมาชิก
-                        </p>
-                    </a>
-                </li>
+                @if (auth()->user()->status === 'admin')
+                    <li class="nav-item">
+                        <a href="{{ route('users.index') }}"
+                            class="nav-link {{ $current_route == 'users.index' || $current_route == 'users.adduser' || $current_route == 'users.edituser' ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>
+                                จักการสมาชิก
+                            </p>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </nav>
     </div>

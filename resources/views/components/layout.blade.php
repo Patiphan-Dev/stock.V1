@@ -50,7 +50,7 @@
     <div class="wrapper">
         @include('Partials.navbar')
         @include('Partials.left-sidebar')
-
+        @include('Partials.loading')
         <div class="content-wrapper">
             <div class="content-header">
                 <div class="container-fluid">
