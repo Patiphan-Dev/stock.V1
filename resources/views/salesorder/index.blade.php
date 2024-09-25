@@ -12,8 +12,15 @@
             var template2 = (index) => `
                 <div class="input-wrapper row">
                     <div class="col-md-3 col-6">
-                        <input type="text" class="form-control" name="so_prod_name[]" 
-                        value="{{ old('so_prod_name.1') }}">
+                       <select class="form-control" data-placeholder="รายการสินค้า"
+                            style="width: 100%;" name="so_prod_name[]" required>
+                            <option value="">---กรุณาเลือกรายการสินค้า---</option>
+                            @foreach ($products as $item)
+                                <option value="{{ $item->prod_name }}">
+                                    {{ $loop->iteration }}. {{ $item->prod_name }}
+                                </option>
+                            @endforeach
+                        </select>
                         @error('so_prod_name.1')
                             <p class="error">{{ $message }}</p>
                         @enderror
@@ -140,8 +147,9 @@
                                     <div class="col-12 col-md-3">
                                         <div class="form-group">
                                             <label for="so_number">เลขที่</label>
-                                            <input type="text" name="so_number" value="{{ old('so_number') }}"
-                                                class="form-control @error('so_number') is-invalid @enderror">
+                                            <input type="number" name="so_number" value="{{ old('so_number') }}"
+                                                class="form-control @error('so_number') is-invalid @enderror"
+                                                placeholder="001">
                                             @error('so_number')
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
@@ -162,7 +170,8 @@
                                             <label for="so_customer_name">ชื่อลูกค้า</label>
                                             <input type="text" name="so_customer_name"
                                                 value="{{ old('so_customer_name') }}"
-                                                class="form-control @error('so_customer_name') is-invalid @enderror">
+                                                class="form-control @error('so_customer_name') is-invalid @enderror"
+                                                placeholder="ชื่อ - นามสกุล">
                                             @error('so_customer_name')
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
@@ -171,9 +180,10 @@
                                     <div class="col-12 col-md-3">
                                         <div class="form-group">
                                             <label for="so_customer_taxpayer_number">เลขประจำตัวผู้เสียภาษี</label>
-                                            <input type="text" name="so_customer_taxpayer_number"
+                                            <input type="number" name="so_customer_taxpayer_number"
                                                 value="{{ old('so_customer_taxpayer_number') }}"
-                                                class="form-control @error('so_customer_taxpayer_number') is-invalid @enderror">
+                                                class="form-control @error('so_customer_taxpayer_number') is-invalid @enderror"
+                                                placeholder="0123456789" pattern="[0-9]{13}">
                                             @error('so_customer_taxpayer_number')
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
@@ -203,78 +213,86 @@
                                 <div class="row">
                                     <div class="col-md-3 col-6">
                                         <div class="form-group">
-                                            <label for="quantity" class="form-label">รายการสินค้า </label>
+                                            <label for="so_prod_name" class="form-label">รายการสินค้า </label>
                                         </div>
                                     </div>
                                     <div class="col-md-1 col-6">
                                         <div class="form-group">
-                                            <label for="unit" class="form-label">ยาว(ม.) </label>
+                                            <label for="so_prod_length" class="form-label">ยาว(ม.) </label>
                                         </div>
                                     </div>
                                     <div class="col-md-1 col-6">
                                         <div class="form-group">
-                                            <label for="property" class="form-label">จำนวน</label>
+                                            <label for="so_prod_quantity" class="form-label">จำนวน</label>
                                         </div>
                                     </div>
                                     <div class="col-md-2 col-3">
                                         <div class="form-group">
-                                            <label for="node" class="form-label">รวมยาว(ม.) </label>
+                                            <label for="so_prod_total_length" class="form-label">รวมยาว(ม.) </label>
                                         </div>
                                     </div>
                                     <div class="col-md-2 col-3">
                                         <div class="form-group">
-                                            <label for="node" class="form-label">ราคาหน่วยละ </label>
+                                            <label for="so_prod_price_per_unit" class="form-label">ราคา/หน่วย </label>
                                         </div>
                                     </div>
                                     <div class="col-md-2 col-3">
                                         <div class="form-group">
-                                            <label for="node" class="form-label">จำนวนเงิน </label>
+                                            <label for="so_prod_price" class="form-label">จำนวนเงิน </label>
                                         </div>
                                     </div>
                                 </div>
                                 <div id="container1">
                                     <div class="input-wrapper row">
                                         <div class="col-md-3 col-6">
-                                            <input type="text" class="form-control" name="so_prod_name[]"
-                                                   value="{{ old('so_prod_name.0') }}">
+                                            <select class="form-control" data-placeholder="รายการสินค้า"
+                                                style="width: 100%;" name="so_prod_name[]" required>
+                                                <option value="">---กรุณาเลือกรายการสินค้า---</option>
+                                                @foreach ($products as $item)
+                                                    <option value="{{ $item->prod_name }}">
+                                                        {{ $loop->iteration }}. {{ $item->prod_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
                                             @error('so_prod_name.0')
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
                                         </div>
                                         <div class="col-md-1 col-6">
-                                            <input type="text" class="form-control" name="so_prod_length[]"
-                                                   id="length1" value="{{ old('so_prod_length.0') }}">
+                                            <input type="number" class="form-control" name="so_prod_length[]"
+                                                id="length1" value="{{ old('so_prod_length.0') }}" min="0" placeholder="999.99">
                                             @error('so_prod_length.0')
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
                                         </div>
                                         <div class="col-md-1 col-6">
-                                            <input type="text" class="form-control" name="so_prod_quantity[]"
-                                                   id="quantity1" oninput="calculateTotal2(1)"
-                                                   value="{{ old('so_prod_quantity.0') }}">
+                                            <input type="number" class="form-control" name="so_prod_quantity[]"
+                                                id="quantity1" oninput="calculateTotal2(1)" min="0" placeholder="999"
+                                                value="{{ old('so_prod_quantity.0') }}">
                                             @error('so_prod_quantity.0')
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
                                         </div>
                                         <div class="col-md-2 col-6">
-                                            <input type="text" class="form-control" name="so_prod_total_length[]"
-                                                   id="total_length1" readonly
-                                                   value="{{ old('so_prod_total_length.0') }}">
+                                            <input type="number" class="form-control" name="so_prod_total_length[]" min="0" placeholder="999.99"
+                                                id="total_length1" readonly
+                                                value="{{ old('so_prod_total_length.0') }}">
                                             @error('so_prod_total_length.0')
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
                                         </div>
                                         <div class="col-md-2 col-6">
-                                            <input type="text" class="form-control" name="so_prod_price_per_unit[]"
-                                                   id="price1" oninput="calculateTotal2(1)"
-                                                   value="{{ old('so_prod_price_per_unit.0') }}">
+                                            <input type="number" class="form-control"
+                                                name="so_prod_price_per_unit[]" id="price1" min="0" placeholder="999.99"
+                                                oninput="calculateTotal2(1)"
+                                                value="{{ old('so_prod_price_per_unit.0') }}">
                                             @error('so_prod_price_per_unit.0')
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
                                         </div>
                                         <div class="col-md-2 col-6">
-                                            <input type="text" class="form-control" name="so_prod_price[]"
-                                                   id="total1" readonly value="{{ old('so_prod_price.0') }}">
+                                            <input type="number" class="form-control" name="so_prod_price[]" min="0" placeholder="999.99"
+                                                id="total1" readonly value="{{ old('so_prod_price.0') }}">
                                             @error('so_prod_price.0')
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
@@ -293,7 +311,7 @@
                                         <div class="form-group">
                                             <label for="so_total_price">รวมราคาสินค้า</label>
                                             <input type="text" name="so_total_price" id="so_total_price"
-                                                value="{{ old('so_total_price') }}"
+                                                value="{{ old('so_total_price') }}" min="0" placeholder="999.99"
                                                 class="form-control @error('so_total_price') is-invalid @enderror"
                                                 readonly>
                                             @error('so_total_price')
@@ -305,7 +323,7 @@
                                         <div class="form-group">
                                             <label for="so_vat">ภาษีมูลค่าเพิ่ม 7 %</label>
                                             <input type="text" name="so_vat" id="so_vat"
-                                                value="{{ old('so_vat') }}"
+                                                value="{{ old('so_vat') }}" min="0" placeholder="999.99"
                                                 class="form-control @error('so_vat') is-invalid @enderror" readonly>
                                             @error('so_vat')
                                                 <p class="error">{{ $message }}</p>
@@ -316,7 +334,7 @@
                                         <div class="form-group">
                                             <label for="so_net_price">เงินรวมทั้งสิ้น</label>
                                             <input type="text" name="so_net_price" id="so_net_price"
-                                                value="{{ old('so_net_price') }}"
+                                                value="{{ old('so_net_price') }}" min="0" placeholder="999.99"
                                                 class="form-control @error('so_net_price') is-invalid @enderror"
                                                 readonly>
                                             @error('so_net_price')

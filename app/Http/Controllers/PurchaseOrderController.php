@@ -18,11 +18,13 @@ class PurchaseOrderController extends Controller
             'title' => 'Purchase Order'
         ];
         $POs = PurchaseOrder::all();
+        $products = ProductList::all();
+
 
         // พิมพ์ค่าของตัวแปรเพื่อดีบัก
         // dd(array_merge($data, compact('users')));
 
-        return view('purchaseorder.index', array_merge($data, compact('POs')));
+        return view('purchaseorder.index', array_merge($data, compact('POs', 'products')));
     }
 
     public function add()
@@ -37,7 +39,6 @@ class PurchaseOrderController extends Controller
             ->get();
 
         // พิมพ์ค่าของตัวแปรเพื่อดีบัก
-        // dd(array_merge($data, compact('users')));
 
         return view('purchaseorder.addPO', array_merge($data, compact('POs', 'Prods', 'PurchaseOrder')));
     }
@@ -45,6 +46,7 @@ class PurchaseOrderController extends Controller
     public function create(Request $request)
     {
         $date = Carbon::now();
+        // dd($request);
 
         // Validate input
         $request->validate([
@@ -91,6 +93,18 @@ class PurchaseOrderController extends Controller
 
             // Insert each product into PurchaseList and update or create in ProductList
             foreach ($request->po_prod_name as $i => $prodName) {
+
+                 // Handle null product name
+                 if ($prodName === null) {
+                    $prodName = $request->input("po_prod_name.{$i}"); // Adjust accordingly to get the null name
+                }
+
+                // Handle custom product name
+                if ($prodName === 'custom') {
+                    $prodName = $request->input("custom_prod_name.{$i}"); // Adjust accordingly to get the custom name
+                }
+
+
                 // Insert into PurchaseList
                 PurchaseList::create([
                     'po_id' => $poid,
@@ -207,7 +221,7 @@ class PurchaseOrderController extends Controller
 
                 // Check if the product exists in ProductList
                 $product = ProductList::where('prod_name', $prodName)->first();
-                $newQty =$request->po_prod_quantity[$i] -  $request->old_quantity[$i];
+                $newQty = $request->po_prod_quantity[$i] -  $request->old_quantity[$i];
                 $newQtyAll = $product->prod_buy_qty + $newQty;
                 $newQtyStock = $product->prod_min_qty + $newQty;
 

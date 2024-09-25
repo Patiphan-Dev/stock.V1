@@ -17,11 +17,11 @@ class SalesOrderController extends Controller
             'title' => 'Sales Order'
         ];
         $SOs = SalesOrder::all();
-
+        $products = ProductList::all();
         // พิมพ์ค่าของตัวแปรเพื่อดีบัก
         // dd(array_merge($data, compact('users')));
 
-        return view('salesorder.index', array_merge($data, compact('SOs')));
+        return view('salesorder.index', array_merge($data, compact('SOs','products')));
     }
 
     public function add()

@@ -12,25 +12,55 @@
             var template = (index) => `
                 <div class="input-wrapper row">
                     <div class="col-md-5 col-sm-6">
-                        <input type="text" class="form-control" name="po_prod_name[]" value="{{ old('po_prod_name.1') }}">
+                        <div class="form-group">
+                        <!-- ช่องเลือกจากรายการสินค้า -->
+                        <div id="selectWrapper${index}">
+                            <select class="form-control" id="prod_name_select${index}"
+                                name="po_prod_name[]" onchange="checkCustomInput(${index})">
+                                <option value="">---กรุณาเลือกรายการสินค้า---</option>
+                                @foreach ($products as $item)
+                                    <option value="{{ $item->prod_name }}">
+                                        {{ $loop->iteration }}. {{ $item->prod_name }}
+                                    </option>
+                                @endforeach
+                                <option value="custom">อื่นๆ (กรอกชื่อสินค้าเอง)</option>
+                            </select>
+                        </div>
+
+                        <!-- ช่องกรอกชื่อสินค้าหากไม่มีในรายการ -->
+                        <div id="customInputWrapper${index}" style="display: none;">
+                            <input type="text" class="form-control" name="custom_prod_name[]" value="{{ old('custom_prod_name.1') }}"
+                                placeholder="กรอกชื่อสินค้า">
+                        </div>
+                    </div>
                         @error('po_prod_name.1')
                             <p class="error">{{ $message }}</p>
                         @enderror
                     </div>
                     <div class="col-md-2 col-sm-6">
-                        <input type="text" class="form-control" name="po_prod_quantity[]" id="quantity${index}" oninput="calculateTotal(${index})" value="{{ old('po_prod_quantity.1') }}">
+                        <input type="text" class="form-control" 
+                        name="po_prod_quantity[]" 
+                        id="quantity${index}" 
+                        oninput="calculateTotal(${index})" 
+                        value="{{ old('po_prod_quantity.1') }}" min="0" placeholder="999" >
                         @error('po_prod_quantity.1')
                             <p class="error">{{ $message }}</p>
                         @enderror
                     </div>
                     <div class="col-md-2 col-sm-6">
-                        <input type="text" class="form-control" name="po_prod_price_per_unit[]" id="price${index}" oninput="calculateTotal(${index})" value="{{ old('po_prod_price_per_unit.1') }}">
+                        <input type="text" class="form-control" 
+                        name="po_prod_price_per_unit[]" id="price${index}" 
+                        oninput="calculateTotal(${index})" 
+                        value="{{ old('po_prod_price_per_unit.1') }}" min="0" placeholder="999.99" >
                         @error('po_prod_price_per_unit.1')
                             <p class="error">{{ $message }}</p>
                         @enderror
                     </div>
                     <div class="col-md-2 col-sm-6">
-                        <input type="text" class="form-control" name="po_prod_price[]" id="total${index}" readonly value="{{ old('po_prod_price.1') }}">
+                        <input type="text" class="form-control" 
+                        name="po_prod_price[]" id="total${index}"  
+                        value="{{ old('po_prod_price.1') }}" min="0"  
+                        placeholder="999.99" readonly>
                         @error('po_prod_price.1')
                             <p class="error">{{ $message }}</p>
                         @enderror
@@ -51,17 +81,13 @@
             });
 
         });
-    </script>
-    <script>
+
         function calculateTotal(index) {
-            const quantity = document.getElementById(`quantity${index}`).value;
-            const price = document.getElementById(`price${index}`).value;
+            const quantity = parseFloat(document.getElementById(`quantity${index}`).value) || 0;
+            const price = parseFloat(document.getElementById(`price${index}`).value) || 0;
             const total = document.getElementById(`total${index}`);
 
-            // Calculate total for this row
-            total.value = (quantity && price) ? (quantity * price).toFixed(2) : '';
-
-            // After updating the row, recalculate overall totals
+            total.value = (quantity * price).toFixed(2);
             calculateOverallTotals();
         }
 
@@ -87,6 +113,23 @@
             const netPriceField = document.getElementById('po_net_price');
             const netPrice = (totalPrice + parseFloat(vatAmount)).toFixed(2);
             netPriceField.value = netPrice;
+        }
+
+
+        function checkCustomInput(index) {
+            console.log(index);
+
+            const selectElement = document.getElementById(`prod_name_select${index}`);
+            const selectWrapper = document.getElementById(`selectWrapper${index}`);
+            const customInputWrapper = document.getElementById(`customInputWrapper${index}`);
+            const customInput = customInputWrapper.querySelector('input'); // เลือกช่อง input
+
+            // เมื่อเลือกตัวเลือก "อื่นๆ" ให้ซ่อน select และแสดง input
+            if (selectElement.value === "custom") {
+                selectWrapper.style.display = "none"; // ซ่อน select
+                customInputWrapper.style.display = "block"; // แสดง input
+                customInput.focus(); // โฟกัสที่ input ให้พร้อมพิมพ์
+            }
         }
     </script>
     <style>
@@ -115,8 +158,8 @@
                                     <div class="col-12 col-md-2">
                                         <div class="form-group">
                                             <label for="po_number1">เล่มที่</label>
-                                            <input type="text" name="po_number1" value="{{ old('po_number1') }}"
-                                                class="form-control @error('po_number1') is-invalid @enderror">
+                                            <input type="number" name="po_number1" value="{{ old('po_number1') }}"
+                                                class="form-control @error('po_number1') is-invalid @enderror"  placeholder="001">
                                             @error('po_number1')
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
@@ -125,8 +168,8 @@
                                     <div class="col-12 col-md-2">
                                         <div class="form-group">
                                             <label for="po_number2">เลขที่</label>
-                                            <input type="text" name="po_number2" value="{{ old('po_number2') }}"
-                                                class="form-control @error('po_number2') is-invalid @enderror">
+                                            <input type="number" name="po_number2" value="{{ old('po_number2') }}"
+                                                class="form-control @error('po_number2') is-invalid @enderror" placeholder="001">
                                             @error('po_number2')
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
@@ -145,7 +188,7 @@
                                     <div class="col-12 col-md-5">
                                         <div class="form-group">
                                             <label for="po_company_name">ชื่อบริษัท</label>
-                                            <input type="text" name="po_company_name"
+                                            <input type="text" name="po_company_name" placeholder="บริษัท xxx จำกัด"
                                                 value="{{ old('po_company_name') }}"
                                                 class="form-control @error('po_company_name') is-invalid @enderror">
                                             @error('po_company_name')
@@ -157,9 +200,10 @@
                                     <div class="col-12 col-md-2">
                                         <div class="form-group">
                                             <label for="po_company_tel">โทร</label>
-                                            <input type="text" name="po_company_tel"
+                                            <input type="tel" name="po_company_tel"
                                                 value="{{ old('po_company_tel') }}"
-                                                class="form-control @error('po_company_tel') is-invalid @enderror">
+                                                class="form-control @error('po_company_tel') is-invalid @enderror"
+                                                placeholder="+1234567890" pattern="[0-9]{10}">
                                             @error('po_company_tel')
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
@@ -168,9 +212,10 @@
                                     <div class="col-12 col-md-2">
                                         <div class="form-group">
                                             <label for="po_company_fax">แฟรกซ์</label>
-                                            <input type="text" name="po_company_fax"
+                                            <input type="tel" name="po_company_fax"
                                                 value="{{ old('po_company_fax') }}"
-                                                class="form-control @error('po_company_fax') is-invalid @enderror">
+                                                class="form-control @error('po_company_fax') is-invalid @enderror"
+                                                placeholder="+1234567890" pattern="[0-9]{10}">
                                             @error('po_company_fax')
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
@@ -181,7 +226,8 @@
                                             <label for="po_company_taxpayer_number">เลขผู้เสียภาษี</label>
                                             <input type="text" name="po_company_taxpayer_number"
                                                 value="{{ old('po_company_taxpayer_number') }}"
-                                                class="form-control @error('po_company_taxpayer_number') is-invalid @enderror">
+                                                class="form-control @error('po_company_taxpayer_number') is-invalid @enderror"
+                                                placeholder="0123456789" pattern="[0-9]{13}">
                                             @error('po_company_taxpayer_number')
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
@@ -233,32 +279,56 @@
                                 <div id="container1">
                                     <div class="row">
                                         <div class="col-md-5 col-sm-6">
-                                            <input type="text" class="form-control" name="po_prod_name[]"
-                                                value="{{ old('po_prod_name.0') }}">
+                                            <div class="form-group">
+
+                                                <!-- ช่องเลือกจากรายการสินค้า -->
+                                                <div id="selectWrapper1">
+                                                    <select class="form-control" id="prod_name_select1"
+                                                        name="po_prod_name[]" onchange="checkCustomInput(1)">
+                                                        <option value="">---กรุณาเลือกรายการสินค้า---</option>
+                                                        @foreach ($products as $item)
+                                                            <option value="{{ $item->prod_name }}">
+                                                                {{ $loop->iteration }}. {{ $item->prod_name }}
+                                                            </option>
+                                                        @endforeach
+                                                        <option value="custom">อื่นๆ (กรอกชื่อสินค้าเอง)</option>
+                                                    </select>
+                                                </div>
+
+                                                <!-- ช่องกรอกชื่อสินค้าหากไม่มีในรายการ -->
+                                                <div id="customInputWrapper1" style="display: none;">
+                                                    <input type="text" class="form-control"
+                                                        name="custom_prod_name[]"
+                                                        value="{{ old('custom_prod_name.1') }}"
+                                                        placeholder="กรอกชื่อสินค้า">
+                                                </div>
+                                            </div>
+
                                             @error('po_prod_name.0')
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
                                         </div>
                                         <div class="col-md-2 col-sm-6">
-                                            <input type="text" class="form-control" name="po_prod_quantity[]"
-                                                id="quantity1" oninput="calculateTotal(1)"
-                                                value="{{ old('po_prod_quantity.0') }}">
+                                            <input type="number" class="form-control" name="po_prod_quantity[]"
+                                                min="0" placeholder="999" id="quantity1"
+                                                oninput="calculateTotal(1)" value="{{ old('po_prod_quantity.0') }}">
                                             @error('po_prod_quantity.0')
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
                                         </div>
                                         <div class="col-md-2 col-sm-6">
-                                            <input type="text" class="form-control"
-                                                name="po_prod_price_per_unit[]" id="price1"
-                                                oninput="calculateTotal(1)"
+                                            <input type="number" class="form-control"
+                                                name="po_prod_price_per_unit[]" id="price1" min="0"
+                                                placeholder="999.99" oninput="calculateTotal(1)"
                                                 value="{{ old('po_prod_price_per_unit.0') }}">
                                             @error('po_prod_price_per_unit.0')
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
                                         </div>
                                         <div class="col-md-2 col-sm-6">
-                                            <input type="text" class="form-control" name="po_prod_price[]"
-                                                id="total1" readonly value="{{ old('po_prod_price.0') }}">
+                                            <input type="number" class="form-control" name="po_prod_price[]"
+                                                min="0" placeholder="999.99" id="total1"
+                                                readonly value="{{ old('po_prod_price.0') }}">
                                             @error('po_prod_price.0')
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
@@ -270,14 +340,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group" id="container1">
+                                <div id="container1">
                                 </div>
                                 <div class="col text-right justify-content-end">
                                     <div class="row justify-content-end">
                                         <div class="form-group">
                                             <label for="po_total_price">รวมราคาสินค้า</label>
                                             <input type="text" name="po_total_price" id="po_total_price"
-                                                value="{{ old('po_total_price') }}"
+                                                value="{{ old('po_total_price') }}" min="0" placeholder="999.99"
                                                 class="form-control @error('po_total_price') is-invalid @enderror"
                                                 readonly>
                                             @error('po_total_price')
@@ -289,7 +359,7 @@
                                         <div class="form-group">
                                             <label for="po_vat">ภาษีมูลค่าเพิ่ม 7 %</label>
                                             <input type="text" name="po_vat" id="po_vat"
-                                                value="{{ old('po_vat') }}"
+                                                value="{{ old('po_vat') }}" min="0" placeholder="999.99"
                                                 class="form-control @error('po_vat') is-invalid @enderror" readonly>
                                             @error('po_vat')
                                                 <p class="error">{{ $message }}</p>
@@ -300,7 +370,7 @@
                                         <div class="form-group">
                                             <label for="po_net_price">เงินรวมทั้งสิ้น</label>
                                             <input type="text" name="po_net_price" id="po_net_price"
-                                                value="{{ old('po_net_price') }}"
+                                                value="{{ old('po_net_price') }}" min="0" placeholder="999.99"
                                                 class="form-control @error('po_net_price') is-invalid @enderror"
                                                 readonly>
                                             @error('po_net_price')
