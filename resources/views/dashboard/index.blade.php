@@ -19,7 +19,7 @@
                         <div class="icon">
                             <i class="fa-solid fa-bag-shopping"></i>
                         </div>
-                        <a href="#" class="small-box-footer">
+                        <a href="/sales/report?filter_period=oneday" class="small-box-footer">
                             สินค้าขายดีวันนี้ <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>
@@ -40,7 +40,7 @@
                         <div class="icon">
                             <i class="fa-solid fa-basket-shopping"></i>
                         </div>
-                        <a href="#" class="small-box-footer">
+                        <a href="/sales/report?filter_period=3_months" class="small-box-footer">
                             สินค้าขายดี 3 เดือน <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>
@@ -61,7 +61,7 @@
                         <div class="icon">
                             <i class="fa-solid fa-cart-shopping"></i>
                         </div>
-                        <a href="#" class="small-box-footer">
+                        <a href="/sales/report?filter_period=6_months" class="small-box-footer">
                             สินค้าขายดี 6 เดือน <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>
@@ -76,7 +76,7 @@
                         <div class="icon">
                             <i class="fa-solid fa-shop"></i>
                         </div>
-                        <a href="#" class="small-box-footer">
+                        <a href="/sales/report?filter_period=all" class="small-box-footer">
                             สินค้าทั้งหมด <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>

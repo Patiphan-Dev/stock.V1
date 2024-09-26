@@ -20,7 +20,7 @@
                                 <div class="row">
                                     <div class="col-12 col-md-3">
                                         <div class="form-group">
-                                            <label for="fullname">ชื่อ - นามสกุล</label>
+                                            <label for="fullname">ชื่อ - นามสกุล <span>*</span></label>
                                             <input type="text" name="fullname" value="{{ $user->fullname }}"
                                                 class="form-control @error('fullname') is-invalid @enderror">
                                             @error('fullname')
@@ -30,7 +30,7 @@
                                     </div>
                                     <div class="col-12 col-md-3">
                                         <div class="form-group">
-                                            <label for="username">ชื่อผู้ใช้งาน</label>
+                                            <label for="username">ชื่อผู้ใช้งาน <span>*</span></label>
                                             <input type="text" name="username" value="{{ $user->username }}"
                                                 class="form-control @error('username') is-invalid @enderror">
                                             @error('username')
@@ -40,7 +40,7 @@
                                     </div>
                                     <div class="col-12 col-md-3">
                                         <div class="form-group">
-                                            <label for="status">สถานะ</label>
+                                            <label for="status">สถานะ <span>*</span></label>
                                             <select class="form-control select" data-placeholder="เลือกสถานะ"
                                                 style="width: 100%;" name="status" required>
                                                 <option value="admin"

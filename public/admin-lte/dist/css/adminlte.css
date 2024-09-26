@@ -10656,10 +10656,10 @@ a.text-dark:hover, a.text-dark:focus {
 .preloader {
   display: -ms-flexbox;
   display: flex;
-  background-color: #f4f6f9;
-  height: 100vh;
-  width: 100%;
-  transition: height 200ms linear;
+  /* background-color: #f4f6f9; */
+  /* height: 100vh; */
+  /* width: 100%; */
+  transition: height 100ms linear;
   position: fixed;
   left: 0;
   top: 0;
@@ -10667,8 +10667,8 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 .dark-mode .preloader {
-  background-color: #454d55 !important;
-  color: #fff;
+  /* background-color: #454d55 !important; */
+  /* color: #fff; */
 }
 
 html.scroll-smooth {

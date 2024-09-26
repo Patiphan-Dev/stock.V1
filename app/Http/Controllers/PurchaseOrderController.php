@@ -50,13 +50,10 @@ class PurchaseOrderController extends Controller
 
         // Validate input
         $request->validate([
-            'po_number1' => ['required', 'max:20'],
-            'po_number2' => ['required', 'max:20'],
             'po_date' => ['required', 'date'],
             'po_company_name' => ['required', 'max:250'],
             'po_company_address' => ['required', 'max:250'],
             'po_company_tel' => ['required', 'max:10'],
-            'po_company_fax' => ['required', 'max:10'],
             'po_company_taxpayer_number' => ['required', 'max:13'],
             'po_total_price' => ['required'],
             'po_vat' => ['required'],
@@ -166,13 +163,10 @@ class PurchaseOrderController extends Controller
     {
         // Validate input
         $request->validate([
-            'po_number1' => ['required', 'max:20'],
-            'po_number2' => ['required', 'max:20'],
             'po_date' => ['required', 'date'],
             'po_company_name' => ['required', 'max:250'],
             'po_company_address' => ['required', 'max:250'],
             'po_company_tel' => ['required', 'max:10'],
-            'po_company_fax' => ['required', 'max:10'],
             'po_company_taxpayer_number' => ['required', 'max:13'],
             'po_total_price' => ['required'],
             'po_vat' => ['required'],

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>TWIN LOTUS</title>
+    <title>เข้าสู่ระบบ</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -15,14 +15,14 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('admin-lte/dist/css/adminlte.min.css') }}">
     <!-- Ionicons -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/logo.gif') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('/store.png') }}">
 </head>
 
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
             <a href="/home">
-                <img src="{{ asset('admin-lte/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3">
+                <img src="{{ asset('/store.png') }}" alt="store Logo" class="w-25 brand-image img-circle">
                 <b>คลังสินค้า</b>
             </a>
         </div>

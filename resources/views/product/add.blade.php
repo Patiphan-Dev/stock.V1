@@ -56,7 +56,7 @@
                                         </div>
                                         <div class="col-md-6 col-sm-6">
                                             <div class="form-group">
-                                                <label for="prod_name" class="form-label">ชื่อสินค้า</label>
+                                                <label for="prod_name" class="form-label">ชื่อสินค้า <span>*</span></label>
                                                 <input type="text" class="form-control" name="prod_name"
                                                     id="prod_name" value="{{ old('prod_name') }}" @error('prod_name') is-invalid @enderror>
                                                 @error('prod_name')
@@ -66,7 +66,7 @@
                                         </div>
                                         <div class="col-md-3 col-sm-6">
                                             <div class="form-group">
-                                                <label for="prod_price_per_unit	" class="form-label">ราคาต่อหน่วย (บาท)
+                                                <label for="prod_price_per_unit	" class="form-label">ราคาต่อหน่วย (บาท) <span>*</span>
                                                 </label>
                                                 <input type="text" class="form-control" name="prod_price_per_unit"
                                                     id="prod_price_per_unit" value="{{ old('prod_price_per_unit') }}" @error('prod_price_per_unit') is-invalid @enderror>
@@ -88,7 +88,7 @@
                                         <div class="col-md-3 col-sm-6">
                                             <div class="form-group">
                                                 <label for="prod_buy_qty" class="form-label"> จำนวนสินค้าซื้อมา
-                                                    (ชิ้น)</label>
+                                                    (ชิ้น) <span>*</span></label>
                                                 <input type="text" class="form-control" name="prod_buy_qty"
                                                     id="prod_buy_qty" oninput="calculateTotal()"
                                                     value="{{ old('prod_buy_qty') }}" @error('prod_buy_qty') is-invalid @enderror>
@@ -100,7 +100,7 @@
                                         <div class="col-md-3 col-sm-6">
                                             <div class="form-group">
                                                 <label for="prod_sales_qty" class="form-label">จำนวนสินค้าที่ขายไป
-                                                    (ชิ้น)
+                                                    (ชิ้น) <span>*</span>
                                                 </label>
                                                 <input type="text" class="form-control" name="prod_sales_qty"
                                                     id="prod_sales_qty" oninput="calculateTotal()"
@@ -114,7 +114,7 @@
                                         <div class="col-md-3 col-sm-6">
                                             <div class="form-group">
                                                 <label for="prod_min_qty" class="form-label">จำนวนสินค้าคงเหลือ
-                                                    (ชิ้น)</label>
+                                                    (ชิ้น) <span>*</span></label>
                                                 <input type="text" class="form-control" name="prod_min_qty"
                                                     id="prod_min_qty" value="{{ old('prod_min_qty') }}" @error('prod_min_qty') is-invalid @enderror readonly>
                                                 @error('prod_min_qty')

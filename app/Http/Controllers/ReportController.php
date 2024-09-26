@@ -27,7 +27,9 @@ class ReportController extends Controller
         $today = Carbon::now();
 
         // ตรวจสอบค่าฟิลเตอร์ที่ผู้ใช้เลือก
-        if ($filterPeriod == '3_months') {
+        if ($filterPeriod == 'oneday') {
+            $startDate = $today;
+        } elseif ($filterPeriod == '3_months') {
             $startDate = $today->copy()->subMonths(3);
         } elseif ($filterPeriod == '6_months') {
             $startDate = $today->copy()->subMonths(6);
@@ -42,7 +44,6 @@ class ReportController extends Controller
         $salesQuery = SalesList::select(
             'so_prod_name',
             SalesList::raw('SUM(so_prod_quantity) as total_quantity'),
-            SalesList::raw('SUM(so_prod_total_length) as total_length'),
             SalesList::raw('SUM(so_prod_price) as total_price')
         )
             ->groupBy('so_prod_name')

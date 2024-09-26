@@ -17,6 +17,9 @@
                                             <option value="all"
                                                 {{ request('filter_period') == 'all' ? 'selected' : '' }}>ทั้งหมด
                                             </option>
+                                            <option value="oneday"
+                                                {{ request('filter_period') == 'oneday' ? 'selected' : '' }}>วันนี้
+                                            </option>
                                             <option value="3_months"
                                                 {{ request('filter_period') == '3_months' ? 'selected' : '' }}>3 เดือน
                                             </option>

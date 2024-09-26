@@ -42,10 +42,12 @@
                                                     class="badge badge-warning">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <a href="{{ route('users.deleteuser', ['id' => $user->id]) }}"
-                                                    class="badge badge-danger">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </a>
+                                                @if ($user->status !== 'admin')
+                                                    <a href="{{ route('users.deleteuser', ['id' => $user->id]) }}"
+                                                        class="badge badge-danger">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

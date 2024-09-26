@@ -18,7 +18,6 @@
             }
 
         }
-
     </script>
     <style>
         .error {
@@ -39,7 +38,8 @@
                         @elseif (session('delete'))
                             <x-flashMsg msg="{{ session('delete') }}" bg="bg-red" />
                         @endif
-                        <form action="{{ route('product.update', ['id' => $product->id]) }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('product.update', ['id' => $product->id]) }}" method="post"
+                            enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="card-body">
@@ -57,20 +57,23 @@
                                         </div>
                                         <div class="col-md-6 col-sm-6">
                                             <div class="form-group">
-                                                <label for="prod_name" class="form-label">ชื่อสินค้า</label>
-                                                <input type="text" class="form-control" name="prod_name"
-                                                    id="prod_name" value="{{ $product->prod_name }}" @error('prod_name') is-invalid @enderror>
-                                                @error('prod_name')
-                                                    <p class="error">{{ $message }}</p>
-                                                @enderror
+                                                < for="prod_name" class="form-label">ชื่อสินค้า <span>*</span></label>
+                                                    <input type="text" class="form-control" name="prod_name"
+                                                        id="prod_name" value="{{ $product->prod_name }}"
+                                                        @error('prod_name') is-invalid @enderror>
+                                                    @error('prod_name')
+                                                        <p class="error">{{ $message }}</p>
+                                                    @enderror
                                             </div>
                                         </div>
                                         <div class="col-md-3 col-sm-6">
                                             <div class="form-group">
                                                 <label for="prod_price_per_unit	" class="form-label">ราคาต่อหน่วย (บาท)
+                                                    <span>*</span>
                                                 </label>
                                                 <input type="text" class="form-control" name="prod_price_per_unit"
-                                                    id="prod_price_per_unit" value="{{ $product->prod_price_per_unit }}" @error('prod_price_per_unit') is-invalid @enderror>
+                                                    id="prod_price_per_unit" value="{{ $product->prod_price_per_unit }}"
+                                                    @error('prod_price_per_unit') is-invalid @enderror>
                                                 @error('prod_price_per_unit')
                                                     <p class="error">{{ $message }}</p>
                                                 @enderror
@@ -89,10 +92,11 @@
                                         <div class="col-md-3 col-sm-6">
                                             <div class="form-group">
                                                 <label for="prod_buy_qty" class="form-label"> จำนวนสินค้าซื้อมา
-                                                    (ชิ้น)</label>
+                                                    (ชิ้น) <span>*</span></label>
                                                 <input type="text" class="form-control" name="prod_buy_qty"
                                                     id="prod_buy_qty" oninput="calculateTotal()"
-                                                    value="{{ $product->prod_buy_qty }}" @error('prod_buy_qty') is-invalid @enderror>
+                                                    value="{{ $product->prod_buy_qty }}"
+                                                    @error('prod_buy_qty') is-invalid @enderror>
                                                 @error('prod_buy_qty')
                                                     <p class="error">{{ $message }}</p>
                                                 @enderror
@@ -101,11 +105,12 @@
                                         <div class="col-md-3 col-sm-6">
                                             <div class="form-group">
                                                 <label for="prod_sales_qty" class="form-label">จำนวนสินค้าที่ขายไป
-                                                    (ชิ้น)
+                                                    (ชิ้น) <span>*</span>
                                                 </label>
                                                 <input type="text" class="form-control" name="prod_sales_qty"
                                                     id="prod_sales_qty" oninput="calculateTotal()"
-                                                    value="{{ $product->prod_sales_qty }}" @error('prod_sales_qty') is-invalid @enderror>
+                                                    value="{{ $product->prod_sales_qty }}"
+                                                    @error('prod_sales_qty') is-invalid @enderror>
                                                 @error('prod_sales_qty')
                                                     <p class="error">{{ $message }}</p>
                                                 @enderror
@@ -115,9 +120,10 @@
                                         <div class="col-md-3 col-sm-6">
                                             <div class="form-group">
                                                 <label for="prod_min_qty" class="form-label">จำนวนสินค้าคงเหลือ
-                                                    (ชิ้น)</label>
+                                                    (ชิ้น) <span>*</span></label>
                                                 <input type="text" class="form-control" name="prod_min_qty"
-                                                    id="prod_min_qty" value="{{ $product->prod_min_qty }}" @error('prod_min_qty') is-invalid @enderror readonly>
+                                                    id="prod_min_qty" value="{{ $product->prod_min_qty }}"
+                                                    @error('prod_min_qty') is-invalid @enderror readonly>
                                                 @error('prod_min_qty')
                                                     <p class="error">{{ $message }}</p>
                                                 @enderror

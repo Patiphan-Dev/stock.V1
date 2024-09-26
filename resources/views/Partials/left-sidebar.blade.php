@@ -5,7 +5,7 @@
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a href="{{ route('home') }}" class="brand-link">
-        <img src="{{ asset('admin-lte/dist/img/AdminLTELogo.png') }}" alt="ระบบคลังสินค้า"
+        <img src="{{ asset('/store.png') }}" alt="ระบบคลังสินค้า"
             class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">ระบบคลังสินค้า</span>
     </a>
@@ -13,14 +13,14 @@
     <div class="sidebar">
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{ asset('admin-lte/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2"
+                <img src="{{ asset('/user.png') }}" class="img-circle elevation-2"
                     alt="User Image">
             </div>
             <div class="info">
                 @if (auth()->check())
                     <a href="{{ route('dashboard.index') }}" class="d-block">{{ auth()->user()->username }}</a>
                 @else
-                    <a href="{{ route('login') }}" class="d-block">Guest</a>
+                    <a href="{{ route('login') }}" class="d-block">Username</a>
                 @endif
             </div>
         </div>

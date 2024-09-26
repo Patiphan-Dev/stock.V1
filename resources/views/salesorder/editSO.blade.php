@@ -84,7 +84,7 @@
                                     </div>
                                     <div class="col-12 col-md-3">
                                         <div class="form-group">
-                                            <label for="so_date">วันที่</label>
+                                            <label for="so_date">วันที่ <span>*</span></label>
                                             <input type="date" name="so_date" value="{{ $SO->so_date }}"
                                                 class="form-control @error('so_date') is-invalid @enderror">
                                             @error('so_date')
@@ -94,7 +94,7 @@
                                     </div>
                                     <div class="col-12 col-md-5">
                                         <div class="form-group">
-                                            <label for="so_customer_name">ชื่อลูกค้า</label>
+                                            <label for="so_customer_name">ชื่อลูกค้า <span>*</span></label>
                                             <input type="text" name="so_customer_name"
                                                 value="{{ $SO->so_customer_name }}"
                                                 class="form-control @error('so_customer_name') is-invalid @enderror">
@@ -105,7 +105,7 @@
                                     </div>
                                     <div class="col-12 col-md-3">
                                         <div class="form-group">
-                                            <label for="so_customer_taxpayer_number">เลขประจำตัวผู้เสียภาษี</label>
+                                            <label for="so_customer_taxpayer_number">เลขประจำตัวผู้เสียภาษี <span>*</span></label>
                                             <input type="text" name="so_customer_taxpayer_number"
                                                 value="{{ $SO->so_customer_taxpayer_number }}"
                                                 class="form-control @error('so_customer_taxpayer_number') is-invalid @enderror">
@@ -116,7 +116,7 @@
                                     </div>
                                     <div class="col-12 col-md-4">
                                         <div class="form-group">
-                                            <label for="so_customer_address">ที่อยู่</label>
+                                            <label for="so_customer_address">ที่อยู่ <span>*</span></label>
                                             <textarea name="so_customer_address" class="form-control @error('so_customer_address') is-invalid @enderror"
                                                 rows="3">{{ $SO->so_customer_address }}</textarea>
                                             @error('so_customer_address')
@@ -138,7 +138,7 @@
                                 <div class="row">
                                     <div class="col-md-4 col-6">
                                         <div class="form-group">
-                                            <label for="quantity" class="form-label">รายการสินค้า </label>
+                                            <label for="quantity" class="form-label">รายการสินค้า <span>*</span></label>
                                         </div>
                                     </div>
                                     <div class="col-md-1 col-6">
@@ -148,7 +148,7 @@
                                     </div>
                                     <div class="col-md-1 col-6">
                                         <div class="form-group">
-                                            <label for="property" class="form-label">จำนวน</label>
+                                            <label for="property" class="form-label">จำนวน <span>*</span></label>
                                         </div>
                                     </div>
                                     <div class="col-md-2 col-3">
@@ -158,12 +158,12 @@
                                     </div>
                                     <div class="col-md-2 col-3">
                                         <div class="form-group">
-                                            <label for="node" class="form-label">ราคาหน่วยละ </label>
+                                            <label for="node" class="form-label">ราคา/หน่วย <span>*</span></label>
                                         </div>
                                     </div>
                                     <div class="col-md-2 col-3">
                                         <div class="form-group">
-                                            <label for="node" class="form-label">จำนวนเงิน </label>
+                                            <label for="node" class="form-label">จำนวนเงิน <span>*</span></label>
                                         </div>
                                     </div>
                                 </div>
@@ -230,7 +230,7 @@
                                 <div class="col text-right justify-content-end">
                                     <div class="row justify-content-end">
                                         <div class="form-group">
-                                            <label for="so_total_price">รวมราคาสินค้า</label>
+                                            <label for="so_total_price">รวมราคาสินค้า <span>*</span></label>
                                             <input type="text" name="so_total_price" id="so_total_price"
                                                 value="{{ old('so_total_price', $SO->so_total_price) }}"
                                                 class="form-control @error('so_total_price') is-invalid @enderror"
@@ -242,7 +242,7 @@
                                     </div>
                                     <div class="row justify-content-end">
                                         <div class="form-group">
-                                            <label for="so_vat">ภาษีมูลค่าเพิ่ม 7 %</label>
+                                            <label for="so_vat">ภาษีมูลค่าเพิ่ม 7 % <span>*</span></label>
                                             <input type="text" name="so_vat" id="so_vat"
                                                 value="{{ old('so_vat', $SO->so_vat) }}"
                                                 class="form-control @error('so_vat') is-invalid @enderror" readonly>
@@ -253,7 +253,7 @@
                                     </div>
                                     <div class="row justify-content-end">
                                         <div class="form-group">
-                                            <label for="so_net_price">เงินรวมทั้งสิ้น</label>
+                                            <label for="so_net_price">เงินรวมทั้งสิ้น <span>*</span></label>
                                             <input type="text" name="so_net_price" id="so_net_price"
                                                 value="{{ old('so_net_price', $SO->so_net_price) }}"
                                                 class="form-control @error('so_net_price') is-invalid @enderror"
