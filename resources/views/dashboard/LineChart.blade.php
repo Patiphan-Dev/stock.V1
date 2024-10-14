@@ -1,7 +1,7 @@
 <div class="col-md-12">
     <div class="card card-info">
         <div class="card-header">
-            <h3 class="card-title">Line Chart: สินค้าขายดีในช่วง 1 ปี</h3>
+            <h3 class="card-title">กราฟแสดงสินค้าขายดีในช่วง 1 ปี</h3>
         </div>
         <div class="card-body">
             <div class="chart">
