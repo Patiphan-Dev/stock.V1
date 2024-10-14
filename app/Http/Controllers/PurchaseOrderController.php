@@ -51,14 +51,15 @@ class PurchaseOrderController extends Controller
         // Validate input
         $request->validate([
             'po_date' => ['required', 'date'],
-            'po_company_name' => ['required', 'max:250'],
-            'po_company_address' => ['required', 'max:250'],
+            'po_company_name' => ['required','string', 'max:250'],
+            'po_company_address' => ['required','string', 'max:250'],
             'po_company_tel' => ['required', 'max:10'],
             'po_company_taxpayer_number' => ['required', 'max:13'],
             'po_total_price' => ['required'],
             'po_vat' => ['required'],
 
-            'po_prod_name.*' => ['required'],
+            'po_prod_name.*' => ['required','string'],
+            'po_prod_unit.*' => ['required','string'],
             'po_prod_quantity.*' => ['required', 'numeric'],
             'po_prod_price_per_unit.*' => ['required', 'numeric'],
             'po_prod_price.*' => ['required', 'numeric'],
@@ -121,6 +122,7 @@ class PurchaseOrderController extends Controller
                     ProductList::create([
                         'po_id' => $poid,
                         'prod_name' => $prodName,
+                        'prod_unit' => $request->po_prod_unit[$i],
                         'prod_price_per_unit' => $request->po_prod_price_per_unit[$i],
                         'prod_buy_qty' => $request->po_prod_quantity[$i],
                         'prod_sales_qty' => 0,
@@ -134,6 +136,7 @@ class PurchaseOrderController extends Controller
                     $minQty = $newQty - $product->prod_sales_qty;
 
                     $product->update([
+                        'prod_unit' => $request->po_prod_unit[$i],
                         'prod_price_per_unit' => $request->po_prod_price_per_unit[$i],
                         'prod_buy_qty' => $newQty,
                         'prod_min_qty' => $minQty,
@@ -164,14 +167,15 @@ class PurchaseOrderController extends Controller
         // Validate input
         $request->validate([
             'po_date' => ['required', 'date'],
-            'po_company_name' => ['required', 'max:250'],
-            'po_company_address' => ['required', 'max:250'],
+            'po_company_name' => ['required','string', 'max:250'],
+            'po_company_address' => ['required','string', 'max:250'],
             'po_company_tel' => ['required', 'max:10'],
             'po_company_taxpayer_number' => ['required', 'max:13'],
             'po_total_price' => ['required'],
             'po_vat' => ['required'],
 
-            'po_prod_name.*' => ['required'],
+            'po_prod_name.*' => ['required','string'],
+            'po_prod_unit.*' => ['required','string'],
             'po_prod_quantity.*' => ['required', 'numeric'],
             'po_prod_price_per_unit.*' => ['required', 'numeric'],
             'po_prod_price.*' => ['required', 'numeric'],
@@ -231,6 +235,7 @@ class PurchaseOrderController extends Controller
                 // );
 
                 $product->update([
+                    'prod_unit' => $request->po_prod_unit[$i],
                     'prod_price_per_unit' => $request->po_prod_price_per_unit[$i],
                     'prod_price' => $request->po_prod_price[$i],
                     'prod_buy_qty' => $newQtyAll,

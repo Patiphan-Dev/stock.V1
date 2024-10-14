@@ -20,7 +20,8 @@
                                         <th>ลำดับ</th>
                                         <th>รายการสินค้า</th>
                                         <th>จำนวน</th>
-                                        <th>ราคาหน่วยละ</th>
+                                        <th>หน่วย</th>
+                                        <th>ราคา/หน่วย</th>
                                         <th>ลูกค้า</th>
                                         <th>วันที่</th>
                                         <th class="text-center"><i class="fa-solid fa-gears"></i></th>
@@ -31,8 +32,9 @@
                                         <tr>
                                             <td class="text-center">{{ $loop->iteration }}</td>
                                             <td>{{ $item->so_prod_name }}</td>
-                                            <td>{{ $item->so_prod_quantity }}</td>
-                                            <td>{{ $item->so_prod_price_per_unit }}</td>
+                                            <td class="text-center">{{ $item->so_prod_quantity }}</td>
+                                            <td class="text-center">{{ $item->product->prod_unit ?? '-' }}</td>
+                                            <td class="text-right">{{ number_format($item->so_prod_price_per_unit, 2) }}</td>
                                             <td>{{ $item->so_customer_name }}</td>
                                             <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
                                             <td class="text-center">
@@ -53,7 +55,8 @@
                                         <th>ลำดับ</th>
                                         <th>รายการสินค้า</th>
                                         <th>จำนวน</th>
-                                        <th>ราคาหน่วยละ</th>
+                                        <th>หน่วย</th>
+                                        <th>ราคา/หน่วย</th>
                                         <th>ลูกค้า</th>
                                         <th>วันที่</th>
                                         <th class="text-center"><i class="fa-solid fa-gears"></i></th>

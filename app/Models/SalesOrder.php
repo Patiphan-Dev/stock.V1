@@ -20,4 +20,14 @@ class SalesOrder extends Model
         'so_net_price',
         'so_note',
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(ProductList::class, 'so_prod_name', 'prod_name'); // Adjust foreign keys as necessary
+    }
+
+    public function saleslist()
+    {
+        return $this->belongsTo(SalesList::class, 'so_id', 'so_id'); // Adjust foreign keys as necessary
+    }
 }

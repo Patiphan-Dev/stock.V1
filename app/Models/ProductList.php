@@ -12,6 +12,7 @@ class ProductList extends Model
         'po_id',
         'prod_name',
         'prod_length',
+        'prod_unit',
         'prod_price_per_unit',
         'prod_buy_qty',
         'prod_sales_qty',

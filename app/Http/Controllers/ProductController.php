@@ -31,6 +31,7 @@ class ProductController extends Controller
         // Validate
         $request->validate([
             'prod_name' => ['required'],
+            'prod_unit' => ['required'],
             'prod_price_per_unit' => ['required'],
             'prod_buy_qty' => ['required', 'numeric'],
             'prod_sales_qty' => ['required', 'numeric'],
@@ -45,6 +46,7 @@ class ProductController extends Controller
             'po_id' => $request->po_id,
             'prod_name' => $request->prod_name,
             'prod_length' => $request->prod_length,
+            'prod_unit' => $request->prod_unit,
             'prod_price_per_unit' => $request->prod_price_per_unit,
             'prod_buy_qty' => $request->prod_buy_qty,
             'prod_sales_qty' => $request->prod_sales_qty,
@@ -72,6 +74,7 @@ class ProductController extends Controller
         // Validate
         $request->validate([
             'prod_name' => ['required'],
+            'prod_unit' => ['required'],
             'prod_price_per_unit' => ['required'],
             'prod_buy_qty' => ['required', 'numeric'],
             'prod_sales_qty' => ['required', 'numeric'],
@@ -87,6 +90,7 @@ class ProductController extends Controller
             'po_id' => $request->po_id,
             'prod_name' => $request->prod_name,
             'prod_length' => $request->prod_length,
+            'prod_unit' => $request->prod_unit,
             'prod_price_per_unit' => $request->prod_price_per_unit,
             'prod_buy_qty' => $request->prod_buy_qty,
             'prod_sales_qty' => $request->prod_sales_qty,

@@ -15,4 +15,9 @@ class PurchaseList extends Model
         'po_prod_price_per_unit',
         'po_prod_price'
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(ProductList::class, 'po_prod_name', 'prod_name'); // Adjust foreign keys as necessary
+    }
 }

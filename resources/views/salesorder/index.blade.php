@@ -1,126 +1,5 @@
 <x-layout :title="$title">
     <link rel="stylesheet" href="{{ asset('admin-lte/dist/css/adminlte.min.css') }}">
-    {{-- <script src="{{ asset('admin-lte/plugins/jquery/jquery.min.js') }}"></script> --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('.select2').select2();
-
-            let rowCount2 = 1; // Start with one row
-
-            // Function to create a new row with unique IDs
-            var template2 = (index) => `
-                <div class="input-wrapper row">
-                    <div class="col-md-3 col-6">
-                       <select class="form-control" data-placeholder="รายการสินค้า"
-                            style="width: 100%;" name="so_prod_name[]" required>
-                            <option value="">---กรุณาเลือกรายการสินค้า---</option>
-                            @foreach ($products as $item)
-                                <option value="{{ $item->prod_name }}">
-                                    {{ $loop->iteration }}. {{ $item->prod_name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('so_prod_name.1')
-                            <p class="error">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="col-md-1 col-6">
-                        <input type="text" class="form-control" name="so_prod_length[]" id="length${index}"
-                         oninput="calculateTotal2(${index})"
-                        value="{{ old('so_prod_length.1') }}">
-                        @error('so_prod_length.1')
-                            <p class="error">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="col-md-1 col-6">
-                        <input type="text" class="form-control" name="so_prod_quantity[]" id="quantity${index}" 
-                        oninput="calculateTotal2(${index})"
-                        value="{{ old('so_prod_quantity.1') }}">
-                        @error('so_prod_quantity.1')
-                            <p class="error">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="col-md-2 col-6">
-                        <input type="text" class="form-control" name="so_prod_total_length[]" id="total_length${index}" 
-                            oninput="calculateTotal2(${index})"
-                            readonly
-                             value="{{ old('so_prod_total_length.1') }}">
-                        @error('so_prod_total_length.1')
-                            <p class="error">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="col-md-2 col-6">
-                        <input type="text" class="form-control" name="so_prod_price_per_unit[]" id="price${index}" 
-                            oninput="calculateTotal2(${index})"
-                            value="{{ old('so_prod_price_per_unit.1') }}">
-                        @error('so_prod_price_per_unit.1')
-                            <p class="error">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="col-md-2 col-6">
-                        <input type="text" class="form-control" name="so_prod_price[]" id="total${index}" readonly>
-                    </div>
-                    <div class="col-md-1 col-sm-6">
-                        <button type="button" class="btn btn-danger form-group delete-row"><i class="fa-solid fa-xmark"></i></button>
-                    </div>
-                </div>
-            `;
-
-            $('#add-row').click(function() {
-                rowCount2++; // Increment the row count
-                $('#container1').append(template2(rowCount2)); // Add a new row
-            });
-
-            $('#container1').on("click", ".delete-row", function() {
-                $(this).parents(".input-wrapper").remove(); // Remove the specific row
-            });
-
-        });
-    </script>
-    <script>
-        function calculateTotal2(index) {
-            const quantity = document.getElementById(`quantity${index}`).value;
-            const price = document.getElementById(`price${index}`).value;
-            const total = document.getElementById(`total${index}`);
-            const length = document.getElementById(`length${index}`).value;
-            const total_length = document.getElementById(`total_length${index}`);
-
-
-
-            // Calculate total for this row
-            total.value = (quantity && price) ? (quantity * price).toFixed(2) : '';
-            total_length.value = (quantity && length) ? (quantity * length).toFixed(2) : '';
-
-
-            // After updating the row, recalculate overall totals
-            calculateOverallTotals2();
-        }
-
-        function calculateOverallTotals2() {
-            // Get all the product totals
-            const totals = document.querySelectorAll("input[name='so_prod_price[]']");
-            let totalPrice = 0;
-
-            totals.forEach(total => {
-                totalPrice += parseFloat(total.value) || 0; // Sum up all the totals
-            });
-
-            // Set the overall total
-            const totalPriceField = document.getElementById('so_total_price');
-            totalPriceField.value = totalPrice.toFixed(2);
-
-            // Calculate and set the VAT (7%)
-            const vatField = document.getElementById('so_vat');
-            const vatAmount = (totalPrice * 0.07).toFixed(2);
-            vatField.value = vatAmount;
-
-            // Calculate and set the net price (total + VAT)
-            const netPriceField = document.getElementById('so_net_price');
-            const netPrice = (totalPrice + parseFloat(vatAmount)).toFixed(2);
-            netPriceField.value = netPrice;
-        }
-    </script>
     <style>
         .error {
             color: red;
@@ -179,7 +58,8 @@
                                     </div>
                                     <div class="col-12 col-md-3">
                                         <div class="form-group">
-                                            <label for="so_customer_taxpayer_number">เลขประจำตัวผู้เสียภาษี <span>*</span></label>
+                                            <label for="so_customer_taxpayer_number">เลขประจำตัวผู้เสียภาษี
+                                                <span>*</span></label>
                                             <input type="number" name="so_customer_taxpayer_number"
                                                 value="{{ old('so_customer_taxpayer_number') }}"
                                                 class="form-control @error('so_customer_taxpayer_number') is-invalid @enderror"
@@ -213,32 +93,36 @@
                                 <div class="row">
                                     <div class="col-md-3 col-6">
                                         <div class="form-group">
-                                            <label for="so_prod_name" class="form-label">รายการสินค้า <span>*</span></label>
+                                            <label for="so_prod_name" class="form-label">รายการสินค้า
+                                                <span>*</span></label>
                                         </div>
                                     </div>
                                     <div class="col-md-1 col-6">
                                         <div class="form-group">
-                                            <label for="so_prod_length" class="form-label">ยาว(ม.) </label>
+                                            <label for="so_prod_unit" class="form-label">หน่วย <span>*</span></label>
                                         </div>
                                     </div>
                                     <div class="col-md-1 col-6">
                                         <div class="form-group">
-                                            <label for="so_prod_quantity" class="form-label">จำนวน <span>*</span></label>
+                                            <label for="so_prod_length" class="form-label">ความยาว </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-6">
+                                        <div class="form-group">
+                                            <label for="so_prod_quantity" class="form-label">จำนวน
+                                                <span>*</span></label>
                                         </div>
                                     </div>
                                     <div class="col-md-2 col-3">
                                         <div class="form-group">
-                                            <label for="so_prod_total_length" class="form-label">รวมยาว(ม.) </label>
+                                            <label for="so_prod_price_per_unit" class="form-label">ราคา/หน่วย
+                                                <span>*</span></label>
                                         </div>
                                     </div>
                                     <div class="col-md-2 col-3">
                                         <div class="form-group">
-                                            <label for="so_prod_price_per_unit" class="form-label">ราคา/หน่วย <span>*</span></label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 col-3">
-                                        <div class="form-group">
-                                            <label for="so_prod_price" class="form-label">จำนวนเงิน <span>*</span></label>
+                                            <label for="so_prod_price" class="form-label">จำนวนเงิน
+                                                <span>*</span></label>
                                         </div>
                                     </div>
                                 </div>
@@ -246,10 +130,13 @@
                                     <div class="input-wrapper row">
                                         <div class="col-md-3 col-6">
                                             <select class="form-control" data-placeholder="รายการสินค้า"
-                                                style="width: 100%;" name="so_prod_name[]" required>
-                                                <option value="">---กรุณาเลือกรายการสินค้า---</option>
+                                                style="width: 100%;" name="so_prod_name[]"
+                                                onchange="updateQuantityFields(this)" required>
+                                                <option value="" readonly>---กรุณาเลือกรายการสินค้า---</option>
                                                 @foreach ($products as $item)
-                                                    <option value="{{ $item->prod_name }}">
+                                                    <option value="{{ $item->prod_name }}"
+                                                        data-qty="{{ $item->prod_min_qty }}"
+                                                        data-unit="{{ $item->prod_unit }}">
                                                         {{ $loop->iteration }}. {{ $item->prod_name }}
                                                     </option>
                                                 @endforeach
@@ -259,40 +146,42 @@
                                             @enderror
                                         </div>
                                         <div class="col-md-1 col-6">
-                                            <input type="number" class="form-control" name="so_prod_length[]"
-                                                id="length1" value="{{ old('so_prod_length.0') }}" min="0" placeholder="999.99">
-                                            @error('so_prod_length.0')
+                                            <input type="text" class="form-control" name="so_prod_unit[]"
+                                                id="so_prod_unit1" value="{{ old('so_prod_unit.0') }}"
+                                                placeholder="ชิ้น" readonly>
+                                            @error('so_prod_unit.0')
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
                                         </div>
                                         <div class="col-md-1 col-6">
+                                            <input type="number" class="form-control" name="so_prod_length[]"
+                                                id="length1" value="{{ old('so_prod_length.0') }}" min="0"
+                                                placeholder="99.9">
+                                            @error('so_prod_length.0')
+                                                <p class="error">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-2 col-6">
                                             <input type="number" class="form-control" name="so_prod_quantity[]"
-                                                id="quantity1" oninput="calculateTotal2(1)" min="0" placeholder="999"
-                                                value="{{ old('so_prod_quantity.0') }}">
+                                                id="quantity1" oninput="calculateTotal2(1)" min="0"
+                                                placeholder="คงเหลือ" value="{{ old('so_prod_quantity.0') }}">
                                             @error('so_prod_quantity.0')
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
                                         </div>
                                         <div class="col-md-2 col-6">
-                                            <input type="number" class="form-control" name="so_prod_total_length[]" min="0" placeholder="999.99"
-                                                id="total_length1" readonly
-                                                value="{{ old('so_prod_total_length.0') }}">
-                                            @error('so_prod_total_length.0')
-                                                <p class="error">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-2 col-6">
                                             <input type="number" class="form-control"
-                                                name="so_prod_price_per_unit[]" id="price1" min="0" placeholder="999.99"
-                                                oninput="calculateTotal2(1)"
+                                                name="so_prod_price_per_unit[]" id="price1" min="0"
+                                                placeholder="999.99" oninput="calculateTotal2(1)"
                                                 value="{{ old('so_prod_price_per_unit.0') }}">
                                             @error('so_prod_price_per_unit.0')
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
                                         </div>
                                         <div class="col-md-2 col-6">
-                                            <input type="number" class="form-control" name="so_prod_price[]" min="0" placeholder="999.99"
-                                                id="total1" readonly value="{{ old('so_prod_price.0') }}">
+                                            <input type="number" class="form-control" name="so_prod_price[]"
+                                                min="0" placeholder="999.99" id="total1" readonly
+                                                value="{{ old('so_prod_price.0') }}">
                                             @error('so_prod_price.0')
                                                 <p class="error">{{ $message }}</p>
                                             @enderror
@@ -304,6 +193,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="form-group" id="container1">
                                 </div>
                                 <div class="col text-right justify-content-end">
@@ -311,7 +201,8 @@
                                         <div class="form-group">
                                             <label for="so_total_price">รวมราคาสินค้า <span>*</span></label>
                                             <input type="text" name="so_total_price" id="so_total_price"
-                                                value="{{ old('so_total_price') }}" min="0" placeholder="999.99"
+                                                value="{{ old('so_total_price') }}" min="0"
+                                                placeholder="999.99"
                                                 class="form-control @error('so_total_price') is-invalid @enderror"
                                                 readonly>
                                             @error('so_total_price')
@@ -334,7 +225,8 @@
                                         <div class="form-group">
                                             <label for="so_net_price">เงินรวมทั้งสิ้น <span>*</span></label>
                                             <input type="text" name="so_net_price" id="so_net_price"
-                                                value="{{ old('so_net_price') }}" min="0" placeholder="999.99"
+                                                value="{{ old('so_net_price') }}" min="0"
+                                                placeholder="999.99"
                                                 class="form-control @error('so_net_price') is-invalid @enderror"
                                                 readonly>
                                             @error('so_net_price')
@@ -361,4 +253,165 @@
             </div>
         </div>
     </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+
+            let rowCount2 = 1; // เริ่มต้นด้วยหนึ่งแถว
+
+            // ฟังก์ชันสำหรับสร้างแถวใหม่ด้วย ID ที่ไม่ซ้ำกัน
+            var template2 = (index) => `
+                <div class="input-wrapper row">
+                    <div class="col-md-3 col-6">
+                        <select class="form-control" data-placeholder="รายการสินค้า"
+                            style="width: 100%;" name="so_prod_name[]" required onchange="updateQuantityFields(this)">
+                            <option value="" readonly>---กรุณาเลือกรายการสินค้า---</option>
+                            @foreach ($products as $item)
+                                <option value="{{ $item->prod_name }}" data-qty="{{ $item->prod_min_qty }}" data-unit="{{ $item->prod_unit }}">
+                                    {{ $loop->iteration }}. {{ $item->prod_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('so_prod_name.1')
+                            <p class="error">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="col-md-1 col-6">
+                        <input type="text" class="form-control" name="so_prod_unit[]" id="so_prod_unit${index}"
+                            placeholder="ชิ้น"
+                            value="{{ old('so_prod_unit.1') }}">
+                        @error('so_prod_unit.1')
+                            <p class="error">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="col-md-1 col-6">
+                        <input type="number" class="form-control" name="so_prod_length[]" id="length${index}"
+                            oninput="calculateTotal2(${index})" placeholder="999.99"
+                            value="{{ old('so_prod_length.1') }}">
+                        @error('so_prod_length.1')
+                            <p class="error">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="col-md-2 col-6">
+                        <input type="number" class="form-control" name="so_prod_quantity[]" id="quantity${index}" 
+                            oninput="calculateTotal2(${index})"
+                            placeholder="คงเหลือ"
+                            value="{{ old('so_prod_quantity.1') }}">
+                        @error('so_prod_quantity.1')
+                            <p class="error">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="col-md-2 col-6">
+                        <input type="number" class="form-control" name="so_prod_price_per_unit[]" id="price${index}" 
+                            oninput="calculateTotal2(${index})" placeholder="999.99"
+                            value="{{ old('so_prod_price_per_unit.1') }}">
+                        @error('so_prod_price_per_unit.1')
+                            <p class="error">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="col-md-2 col-6">
+                        <input type="number" class="form-control" name="so_prod_price[]" id="total${index}" placeholder="999.99" readonly>
+                    </div>
+                    <div class="col-md-1 col-sm-6">
+                        <button type="button" class="btn btn-danger form-group delete-row"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                </div>
+            `;
+
+            // ฟังก์ชันสำหรับอัปเดตฟิลด์ปริมาณตามรายการสินค้าที่เลือก
+            window.updateQuantityFields = function(selectElement) {
+                const selectedOption = selectElement.options[selectElement.selectedIndex];
+                const selectedValue = selectedOption.value;
+                const minQty = selectedOption.getAttribute('data-qty');
+                const unit = selectedOption.getAttribute('data-unit');
+                const quantityInput = $(selectElement).closest('.input-wrapper').find(
+                    'input[name="so_prod_quantity[]"]');
+                const unitInput = $(selectElement).closest('.input-wrapper').find(
+                    'input[name="so_prod_unit[]"]');
+                const lengthInput = $(selectElement).closest('.input-wrapper').find(
+                    'input[name="so_prod_length[]"]');
+
+                // อัปเดตค่า max และ placeholder ของ quantity input
+                if (quantityInput.length > 0) {
+                    quantityInput.attr('max', minQty);
+
+                    unitInput.attr('value', `${unit}`);
+
+                    // Show or hide lengthInput based on unit value
+                    if (unit !== 'เมตร') {
+                        lengthInput.attr("readonly", true); // Set to read-only if the unit is not "เมตร"
+                        quantityInput.attr('placeholder', `คงเหลือ ${minQty} ${unit}`);
+                    } else {
+                        lengthInput.removeAttr("readonly"); // Remove read-only if the unit is "เมตร"
+                        quantityInput.attr('placeholder', `คงเหลือ ${minQty}`);
+                    }
+
+                }
+
+                // ตรวจสอบว่ารายการสินค้านี้มีอยู่ในแถวอื่นแล้วหรือไม่
+                const existingSelections = $("select[name='so_prod_name[]']").map(function() {
+                    return $(this).val();
+                }).get();
+
+                if (existingSelections.filter(item => item === selectedValue).length > 1) {
+                    alert('ไม่สามารถเลือกรายการสินค้านี้ซ้ำได้!');
+                    $(selectElement).val('').trigger('change'); // รีเซ็ตการเลือก
+                }
+            };
+
+            $('#add-row').click(function() {
+                rowCount2++; // เพิ่มจำนวนแถว
+                $('#container1').append(template2(rowCount2)); // เพิ่มแถวใหม่
+            });
+
+            $('#container1').on("click", ".delete-row", function() {
+                $(this).parents(".input-wrapper").remove(); // ลบแถวที่เลือก
+            });
+        });
+    </script>
+
+    <script>
+        function calculateTotal2(index) {
+            const quantity = Number(document.getElementById(`quantity${index}`).value);
+            const price = Number(document.getElementById(`price${index}`).value);
+            const total = document.getElementById(`total${index}`);
+            const length = Number(document.getElementById(`length${index}`).value);
+            const total_length = document.getElementById(`total_length${index}`);
+
+            // คำนวณยอดรวมสำหรับแถวนี้
+            if (!isNaN(quantity) && !isNaN(price)) {
+                total.value = (quantity * price).toFixed(2);
+            } else {
+                total.value = '';
+            }
+
+            // หลังจากอัปเดตแถวแล้ว คำนวณยอดรวมทั้งหมดใหม่
+            calculateOverallTotals2();
+        }
+
+        function calculateOverallTotals2() {
+            // รับยอดรวมสินค้าทั้งหมด
+            const totals = document.querySelectorAll("input[name='so_prod_price[]']");
+            let totalPrice = 0;
+
+            totals.forEach(total => {
+                totalPrice += Number(total.value) || 0; // สรุปยอดรวมทั้งหมด
+            });
+
+            // ตั้งค่าให้กับยอดรวมทั้งหมด
+            const totalPriceField = document.getElementById('so_total_price');
+            totalPriceField.value = totalPrice.toFixed(2);
+
+            // คำนวณและตั้งค่า VAT (7%)
+            const vatField = document.getElementById('so_vat');
+            const vatAmount = (totalPrice * 0.07).toFixed(2);
+            vatField.value = vatAmount;
+
+            // คำนวณและตั้งค่าเน็ต (ยอดรวม + VAT)
+            const netPriceField = document.getElementById('so_net_price');
+            const netPrice = (totalPrice + Number(vatAmount)).toFixed(2);
+            netPriceField.value = netPrice;
+        }
+    </script>
 </x-layout>

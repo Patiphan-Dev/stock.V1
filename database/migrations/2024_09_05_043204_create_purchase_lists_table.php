@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('po_id', 20)->nullable()->comment('รหัสใบสั่งซื้อ');
             $table->string('po_prod_name', 250)->nullable()->comment('ชื่อสินค้า');
-            $table->integer('po_prod_quantity')->nullable()->comment('จำนวน/กิโล');
+            $table->integer('po_prod_quantity')->nullable()->comment('จำนวน');
             $table->double('po_prod_price_per_unit')->nullable()->comment('ราคา/หน่วย');
             $table->double('po_prod_price')->nullable()->comment('จำนวนเงิน');
             $table->timestamps();

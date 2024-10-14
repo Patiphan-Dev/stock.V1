@@ -45,8 +45,9 @@
                                     <tr>
                                         <th>ลำดับ</th>
                                         <th>รายการสินค้า</th>
-                                        <th>จำนวนที่ขายได้ (ชิ้น)</th>
-                                        <th>ความยาวรวม (ม.)</th>
+                                        <th>จำนวนที่ขายได้</th>
+                                        <th>ราคาต่อหน่วย</th>
+                                        <th>หน่วย</th>
                                         <th>จำนวนเงินทั้งหมด (บาท)</th>
                                     </tr>
                                 </thead>
@@ -55,9 +56,11 @@
                                         <tr>
                                             <td class="text-center">{{ $loop->iteration }}</td>
                                             <td>{{ $item->so_prod_name }}</td>
-                                            <td>{{ $item->total_quantity }}</td>
-                                            <td>{{ $item->total_length }}</td>
-                                            <td>{{ $item->total_price }}</td>
+                                            <td class="text-center">{{ $item->total_quantity }}</td>
+                                            <td class="text-right">
+                                                {{ number_format($item->product->prod_price_per_unit, 2) }}</td>
+                                            <td class="text-center">{{ $item->product->prod_unit }}</td>
+                                            <td class="text-right">{{ number_format($item->total_price, 2) }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

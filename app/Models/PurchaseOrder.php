@@ -24,4 +24,9 @@ class PurchaseOrder extends Model
         'po_net_price',
         'po_note',
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(ProductList::class, 'po_prod_name', 'prod_name'); // Adjust foreign keys as necessary
+    }
 }

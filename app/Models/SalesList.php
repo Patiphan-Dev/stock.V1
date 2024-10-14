@@ -16,7 +16,10 @@ class SalesList extends Model
         'so_prod_price',
         'so_prod_length',
         'so_prod_total_length',
-
-
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(ProductList::class, 'so_prod_name', 'prod_name'); // Adjust foreign keys as necessary
+    }
 }

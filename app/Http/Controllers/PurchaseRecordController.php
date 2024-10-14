@@ -1,11 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
 use App\Models\PurchaseOrder;
-use App\Models\PurchaseList;
-use App\Models\ProductList;
 
 class PurchaseRecordController extends Controller
 {
@@ -15,7 +11,7 @@ class PurchaseRecordController extends Controller
             'title' => 'Purchase Record'
         ];
         // ดึงข้อมูล PurchaseOrder พร้อมกับ id ของ PurchaseList และ id ของ PurchaseOrder
-        $POs = PurchaseOrder::join('purchase_lists', 'purchase_orders.po_id', '=', 'purchase_lists.po_id')
+        $POs = PurchaseOrder::with('product')->join('purchase_lists', 'purchase_orders.po_id', '=', 'purchase_lists.po_id')
             ->select(
                 'purchase_orders.id as purchase_order_id', // ดึง id ของ PurchaseOrder
                 'purchase_orders.po_company_name as po_company_name',

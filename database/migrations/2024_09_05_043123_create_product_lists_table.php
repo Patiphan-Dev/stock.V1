@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('po_id', 20)->nullable()->comment('รหัสใบสั่งซื้อ');
             $table->string('prod_name', 100)->nullable()->comment('ชื่อสินค้า');
+            $table->string('prod_unit')->nullable()->comment('หน่วย');
             $table->double('prod_length')->nullable()->comment('ความยาว');
             $table->double('prod_price_per_unit')->nullable()->comment('ราคาต่อหน่วย');
             $table->integer('prod_buy_qty')->nullable()->comment('จำนวนสินค้าซื้อมา');

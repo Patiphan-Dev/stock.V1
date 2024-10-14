@@ -166,14 +166,19 @@
                                 </div>
                                 <hr>
                                 <div class="row">
-                                    <div class="col-md-6 col-sm-4">
+                                    <div class="col-md-4 col-sm-4">
                                         <div class="form-group">
-                                            <label for="quantity" class="form-label">รายการสินค้า <span>*</span></label>
+                                            <label for="po_prod_name" class="form-label">รายการสินค้า <span>*</span></label>
                                         </div>
                                     </div>
                                     <div class="col-md-2 col-sm-4">
                                         <div class="form-group">
-                                            <label for="unit" class="form-label">จำนวน/กิโล <span>*</span></label>
+                                            <label for="po_prod_quantity" class="form-label">จำนวน <span>*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="unit" class="form-label">หน่วย <span>*</span></label>
                                         </div>
                                     </div>
                                     <div class="col-md-2 col-sm-4">
@@ -190,7 +195,7 @@
                                 <div id="container1">
                                     @foreach ($PurchaseList as $index => $item)
                                         <div class="input-wrapper row mb-3">
-                                            <div class="col-md-5 col-sm-6">
+                                            <div class="col-md-4 col-sm-6">
                                                 <input type="text" class="form-control" name="po_prod_name[]"
                                                     value="{{ old('po_prod_name.' . $index, $item->po_prod_name) }}" readonly>
                                                 @error('po_prod_name.' . $index)
@@ -205,6 +210,15 @@
                                                 <input type="text" class="form-control" name="old_quantity[]"
                                                     value="{{ $item->po_prod_quantity }}" hidden>
                                                 @error('po_prod_quantity.' . $index)
+                                                    <p class="error">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            <div class="col-md-2 col-sm-6">
+                                                <input type="text" class="form-control" name="po_prod_unit[]"
+                                                    id="po_prod_unit{{ $index }}"
+                                                    oninput="calculateTotal({{ $index }})"
+                                                    value="{{ old('po_prod_unit.' . $index, $item->product->prod_unit) }}" readonly>
+                                                @error('po_prod_unit.' . $index)
                                                     <p class="error">{{ $message }}</p>
                                                 @enderror
                                             </div>

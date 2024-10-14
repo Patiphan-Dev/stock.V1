@@ -23,11 +23,12 @@
                                     <tr>
                                         <th>ลำดับ</th>
                                         <th>รายการสินค้า</th>
-                                        <th>ความยาว (เมตร)</th>
+                                        <th>หน่วย</th>
+                                        <th>ความยาว</th>
                                         <th>ราคาต่อหน่วย (บาท)</th>
-                                        <th>จำนวนนำเข้า (ชิ้น)</th>
-                                        <th>จำนวนส่งออก (ชิ้น)</th>
-                                        <th>จำนวนที่เหลือ (ชิ้น)</th>
+                                        <th>จำนวนนำเข้า</th>
+                                        <th>จำนวนส่งออก</th>
+                                        <th>จำนวนที่เหลือ</th>
                                         <th class="text-center"><i class="fa-solid fa-gears"></i></th>
                                     </tr>
                                 </thead>
@@ -35,12 +36,13 @@
                                     @foreach ($products as $item)
                                         <tr>
                                             <td class="text-center">{{ $loop->iteration }}</td>
-                                            <td>{{ $item->prod_name }}</td>
-                                            <td>{{ $item->prod_length }}</td>
-                                            <td>{{ $item->prod_price_per_unit }}</td>
-                                            <td>{{ $item->prod_buy_qty }}</td>
-                                            <td>{{ $item->prod_sales_qty }}</td>
-                                            <td>{{ $item->prod_min_qty }}</td>
+                                            <td>{{ $item->prod_name ?? '-' }}</td>
+                                            <td>{{ $item->prod_unit ?? '-' }}</td>
+                                            <td>{{ $item->prod_length ?? '-' }}</td>
+                                            <td>{{ $item->prod_price_per_unit ?? '-' }}</td>
+                                            <td>{{ $item->prod_buy_qty ?? '-' }}</td>
+                                            <td>{{ $item->prod_sales_qty ?? '-' }}</td>
+                                            <td>{{ $item->prod_min_qty ?? '-' }}</td>
                                             <td class="text-center">
                                                 <a href="{{ route('product.edit', ['id' => $item->id]) }}"
                                                     class="badge badge-warning">
@@ -58,11 +60,12 @@
                                     <tr>
                                         <th>ลำดับ</th>
                                         <th>รายการสินค้า</th>
-                                        <th>ความยาว (เมตร)</th>
+                                        <th>หน่วย</th>
+                                        <th>ความยาว</th>
                                         <th>ราคาต่อหน่วย (บาท)</th>
-                                        <th>จำนวนนำเข้า (ชิ้น)</th>
-                                        <th>จำนวนส่งออก (ชิ้น)</th>
-                                        <th>จำนวนที่เหลือ (ชิ้น)</th>
+                                        <th>จำนวนนำเข้า</th>
+                                        <th>จำนวนส่งออก</th>
+                                        <th>จำนวนที่เหลือ</th>
                                         <th class="text-center"><i class="fa-solid fa-gears"></i></th>
                                     </tr>
                                 </tfoot>
